@@ -22,7 +22,7 @@ function App() {
           </div>
 
           {/* Columna 80% */}
-          <div className="col-12 col-md-10 col-lg-10 p-3">
+          <div className="col-12 col-md-10 col-lg-10 p-3 bg-light">
             <Hero />
             <Services />
           </div>

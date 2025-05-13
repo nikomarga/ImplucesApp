@@ -13,7 +13,7 @@ export default function Hero() {
               aria-label="Search"
             />
             <button type="button" className="btn">
-              <i className="bi bi-search" style={{ fontSize: '10px' }}></i>
+              <i className="bi bi-search" style={{ fontSize: '20px' }}></i>
             </button>
           </form>
         </div>
@@ -24,7 +24,7 @@ export default function Hero() {
           <button
             type="button"
             className="btn btn-primary w-100 rounded-0 text-start"
-            style={{fontSize: '17px', border: 'none', backgroundColor: '#c60078', color: '#ffffff', border: 'none' }}>
+            style={{fontSize: '17px', border: 'none', backgroundColor: '#c60078', color: '#ffffff', border: 'none', borderRadius: '20px',  margin: '0px 27px 0px 13px' }}>
             <i className="bi bi-plus me-2" style={{ fontSize: '20px' }}></i>
             Agrega tu servicio / producto aquí
           </button>
