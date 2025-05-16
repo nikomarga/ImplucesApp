@@ -6,7 +6,7 @@
     rating: 5,
     descripcion:"Servicio de manicure con las últimas tendencias y materiales de alta duración. Realizo servicio a domicilio en todo el valle de Aburrá. Días se semana descuento especiales 😉",
     imagenPerfil: "https://media.istockphoto.com/id/1389348844/es/foto/foto-de-estudio-de-una-hermosa-joven-sonriendo-mientras-est%C3%A1-de-pie-sobre-un-fondo-gris.jpg?s=612x612&w=0&k=20&c=kUufmNoTnDcRbyeHhU1wRiip-fNjTWP9owjHf75frFQ=",
-    imagenes: ["/img/u1.jpg", "/img/u2.jpg", "/img/u3.jpg", "/img/u4.jpg", "/img/u5.jpg"],
+    imagenes: ["https://images.pexels.com/photos/9393756/pexels-photo-9393756.jpeg?auto=compress&cs=tinysrgb&w=300", "https://images.pexels.com/photos/15491630/pexels-photo-15491630/free-photo-of-manos-mujer-delicado-forma-de-corazon.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/17010953/pexels-photo-17010953/free-photo-of-rojo-mujer-mano-salon-de-belleza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/1164339/pexels-photo-1164339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "https://images.pexels.com/photos/887352/pexels-photo-887352.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"],
   },
   {
     titulo: "Cortes de Cabello",
@@ -68,7 +68,7 @@ export default function Services() {
                 <div className="text-yellow-400 text-lg">
                   {"★".repeat(servicio.rating) + "☆".repeat(5 - servicio.rating)}
                 </div>
-                <button className="bg-blue-600 text-white text-sm px-4 py-1 rounded shadow hover:bg-blue-700">
+                <button className="bg-blue-600 text-sm px-4 py-1 rounded shadow hover:bg-blue-700">
                   Contactar
                 </button>
               </div>
@@ -76,13 +76,14 @@ export default function Services() {
           </div>
 
           {/* Galería de imágenes - 100% ancho */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 px-4 pb-4" style={{backgroundColor: '#F5F5F5'}}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 px-4 pb-4" style={{backgroundColor: '#F5F5F5', }}>
             {servicio.imagenes.map((img, i) => (
               <img
                 key={i}
                 src={img}
                 alt="foto"
                 className="h-24 w-full object-cover rounded"
+                style={{  width: '128px', height: '128px' }}
               />
             ))}
           </div>
