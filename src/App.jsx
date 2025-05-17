@@ -1,17 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from './pages/Dashboard';
-import Perfil from './pages/Perfil';
-import Login from './pages/Login';
-import NotFoundPage from './pages/NotFoundPage';
-import AgregarServicio from './pages/AgregarServicio'
-import Nosotros from './pages/Nosotros';
-import Contactanos from './pages/Contactanos';
+import Dashboard from './frontend/pages/Dashboard';
+import Perfil from './frontend/pages/Perfil';
+import Login from './frontend/pages/Login';
+import AgregarServicio from './frontend/pages/AgregarServicio'
+import Nosotros from './frontend/pages/Nosotros';
+import Contactanos from './frontend/pages/Contactanos';
 
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import Footer from './components/Footer';
-import Buscar from './components/Buscar'; // Asegúrate que exista este archivo
+import Navbar from './frontend/components/Navbar';
+import Hero from './frontend/components/Hero';
+import Services from './frontend/components/Services';
+import Footer from './frontend/components/Footer';
+import Buscar from './frontend/components/Buscar'; // Asegúrate que exista este archivo
 
 
 function App() {
