@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-//import rocket from '../frontend/assets/images/rocket2.png';
+import rocket from '../assets/images/rocket2.png';
 import './Login.css';
 
 export default function Login() {

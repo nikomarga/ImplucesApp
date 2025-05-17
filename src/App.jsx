@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from './frontend/pages/Dashboard';
+import Dashboard from './admin/pages/Dashboard';
 import Perfil from './frontend/pages/Perfil';
 import Login from './frontend/pages/Login';
 import AgregarServicio from './frontend/pages/AgregarServicio'
@@ -10,8 +10,7 @@ import Navbar from './frontend/components/Navbar';
 import Hero from './frontend/components/Hero';
 import Services from './frontend/components/Services';
 import Footer from './frontend/components/Footer';
-import Buscar from './frontend/components/Buscar'; // Asegúrate que exista este archivo
-
+import Buscar from './frontend/components/Buscar';
 
 function App() {
 
