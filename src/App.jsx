@@ -43,6 +43,7 @@ function App() {
           <Route path="/AgregarServicio" element={<AgregarServicio/>}/>
           <Route path='/Nosotros' element={<Nosotros/>}/>
           <Route path='/Contactanos' element={<Contactanos/>}/>
+          <Route path="/perfil" element={<Perfil />} />
         </Routes>
         <Footer />
       </Router>
