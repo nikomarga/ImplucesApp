@@ -1,27 +1,26 @@
+import "./ContactForm.css";
+
 export default function ContactForm() {
   return (
-    <section id="contacto" className="py-20 bg-gray-100 text-center">
-      <h2 className="text-4xl font-bold text-gray-800 mb-8">Contáctanos</h2>
+    <section id="contacto" className="contact-section">
 
-      <form className="bg-white max-w-xl mx-auto p-8 rounded-lg shadow-lg flex flex-col gap-6">
+      <form className="contact-form">
+        <h4 className="contact-title">Contáctanos</h4>
         <input
           type="text"
           placeholder="Nombre"
-          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="contact-input"
         />
         <input
           type="email"
           placeholder="Correo electrónico"
-          className="border border-gray-300 p-3 rounded focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="contact-input"
         />
         <textarea
           placeholder="Tu mensaje"
-          className="border border-gray-300 p-3 h-32 rounded resize-none focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="contact-textarea"
         ></textarea>
-        <button
-          type="submit"
-          className="bg-green-700 text-white py-3 rounded hover:bg-green-800 transition-colors"
-        >
+        <button type="submit" className="contact-button">
           Enviar
         </button>
       </form>
