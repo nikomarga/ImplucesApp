@@ -24,7 +24,7 @@ function App() {
               <div className="container-fluid">
                 <div className="row">
                   {/* Columna 20% */}
-                  <div className="col-12 col-md-2 col-lg-2 p-3 bg-light">
+                  <div className="col-12 col-md-2 col-lg-2 p-3 ">
                     <Buscar />
                   </div>
 
