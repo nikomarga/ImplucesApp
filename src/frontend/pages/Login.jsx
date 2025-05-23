@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import rocket from '../assets/images/rocket2.png';
-import './Login.css';
+import degeadado from '../assets/images/degradado.png';
+import './login.css';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -21,16 +22,23 @@ export default function Login() {
 return (
   <div className="login-container">
     <div className="login-wrapper">
+      <div class="color">
+      </div>
       <div className="login-left">
         <img src={rocket} alt="Rocket" />
       </div>
-
+    </div>
+    <div className='form-section'>
       <div className="login-right">
-        <h1 className="login-title">
-          IMPUL<span>CES</span>
-        </h1>
+        <div className="contenedor_titulo">
+          <h1 className="login-title">
+            IMPUL<span>CES</span>
+          </h1>
+          <h2 className="eslogan">CONECTA TALENTO EN CESDE</h2>
+        </div>
+        
         <p className="login-text">
-          ¿Ya estás impulsando tu negocio con nosotros? <a href="#">Crea una cuenta</a>
+          ¿Quieres impulsando tu negocio con nosotros? <a href="/CrearCuenta">Crea una cuenta</a>
         </p>
 
         <form className="login-form" onSubmit={handleLogin}>

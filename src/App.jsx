@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './admin/pages/Dashboard';
 import Perfil from './frontend/pages/Perfil';
 import Login from './frontend/pages/Login';
+import CrearCuenta from './frontend/pages/CrearCuenta';
 import AgregarServicio from './frontend/pages/AgregarServicio'
 import Nosotros from './frontend/pages/Nosotros';
 import Contactanos from './frontend/pages/Contactanos';
@@ -44,6 +45,7 @@ function App() {
           <Route path='/Nosotros' element={<Nosotros/>}/>
           <Route path='/Contactanos' element={<Contactanos/>}/>
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/CrearCuenta" element={<CrearCuenta />} />
         </Routes>
         <Footer />
       </Router>

@@ -14,7 +14,7 @@ export default function Perfil() {
             <form className="perfil-form bg-light">
               <div className="perfil-header">
                 
-                <button className="perfil-guardar"> Guardar Cambios</button>
+                <button className="perfil-guardar"><i className="bi bi-send-fill me-2"></i> Guardar Cambios</button>
               </div>
 
               <h2>Información Personal</h2>

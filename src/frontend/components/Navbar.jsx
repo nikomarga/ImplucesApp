@@ -13,7 +13,7 @@ export default function Navbar() {
     setOpen(false); // Cierra el menú después de navegar
   };
   return (
-    <header className="container-fluid py-3 d-flex header justify-content-between align-items-center">
+    <header className="container-fluid py-3 d-flex header justify-content-between align-items-center bg-white">
       <div className="d-flex align-items-center">
         <img src={rocket}  alt="Logo" className="me-2" style={{ width: '70px' }} />
         <button 

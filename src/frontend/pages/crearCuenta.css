@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.image-section {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.color img,
+.imagenColor img {
+  width: 100%;
+  height: auto;
+}
+
+.form-section {
+  flex: 1;
+  background-color: #fff;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formulario {
+  max-width: 500px;
+  width: 100%;
+}
+
+.formulario h1 {
+  font-size: 2.5rem;
+}
+
+.formulario .ces {
+  color: #0e6433;
+}
+
+.formulario h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+input, select {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.submit-btn {
+  background-color: #104377;
+  color: white;
+  padding: 0.75rem;
+  width: 100%;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}

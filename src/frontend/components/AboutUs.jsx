@@ -1,10 +1,11 @@
+import './AboutUs.css';
 
 export default function AboutUs() {
   return (
-    <section id="nosotros" className="py-20 bg-gray-100 text-center">
-      <div className="max-w-4xl mx-auto px-6">
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-6">¿Quiénes Somos?</h2>
-        <div className="bg-white shadow-lg rounded-2xl p-8 text-left text-gray-700 space-y-5 transition-transform duration-300 hover:scale-[1.01]">
+    <section id="nosotros" className="aboutus-section">
+      <div className="aboutus-container">
+        <h2 className="aboutus-title">¿Quiénes Somos?</h2>
+        <div className="aboutus-content">
           <p>
             Somos una empresa apasionada por impulsar el crecimiento de negocios mediante
             soluciones tecnológicas innovadoras, automatización inteligente y estrategias
@@ -30,5 +31,5 @@ export default function AboutUs() {
         </div>
       </div>
     </section>
-  )
+  );
 }
