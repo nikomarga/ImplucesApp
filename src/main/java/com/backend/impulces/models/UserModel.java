@@ -1,8 +1,9 @@
 package com.backend.impulces.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import java.util.Date;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -10,43 +11,30 @@ public class UserModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Id")
     private Integer id;
 
-    @Column(name = "Usuario", nullable = false, length = 120, unique = true)
+    @Column(length = 100, nullable = false, unique = true)
     private String usuario;
 
-    @Column(name = "Sede", nullable = false, length = 80)
+    @Column(length = 100, nullable = false)
     private String sede;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "Fecha_nacimiento", nullable = false)
-    private Date fechaNacimiento;
+    @Column(name = "fecha_nacimiento", nullable = false)
+    private LocalDate fechaNacimiento;
 
-    @Column(name = "Correo", nullable = false, length = 255, unique = true)
+    @Column(length = 100, nullable = false, unique = true)
     private String correo;
 
-    @Column(name = "Password", nullable = false, length = 255)
+    @Column(length = 255, nullable = false)
     private String password;
 
-    @Column(name = "Programa", nullable = false, length = 80)
+    @Column(length = 100, nullable = false)
     private String programa;
 
-    @OneToMany(mappedBy = "creadoPorUsuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<EmprendimientoModel> emprendimientos;
+    @OneToMany(mappedBy = "creadoPorUsuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    private List<EmprendimientoModel> emprendimientos;
 
-
-    public UserModel() {
-    }
-
-    public UserModel(String usuario, String sede, Date fechaNacimiento, String correo, String password, String programa) {
-        this.usuario = usuario;
-        this.sede = sede;
-        this.fechaNacimiento = fechaNacimiento;
-        this.correo = correo;
-        this.password = password;
-        this.programa = programa;
-    }
 
     public Integer getId() {
         return id;
@@ -72,11 +60,11 @@ public class UserModel {
         this.sede = sede;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -104,11 +92,11 @@ public class UserModel {
         this.programa = programa;
     }
 
-    public Set<EmprendimientoModel> getEmprendimientos() {
+    public List<EmprendimientoModel> getEmprendimientos() {
         return emprendimientos;
     }
 
-    public void setEmprendimientos(Set<EmprendimientoModel> emprendimientos) {
+    public void setEmprendimientos(List<EmprendimientoModel> emprendimientos) {
         this.emprendimientos = emprendimientos;
     }
 }

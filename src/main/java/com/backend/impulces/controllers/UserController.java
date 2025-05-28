@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -17,6 +18,27 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    public static class LoginRequest {
+        private String correo;
+        private String password;
+
+        public String getCorreo() {
+            return correo;
+        }
+
+        public void setCorreo(String correo) {
+            this.correo = correo;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+    }
+
     @GetMapping
     public ArrayList<UserModel> getUsers() {
         return this.userService.getUsers();
@@ -24,7 +46,6 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserModel> saveUser(@RequestBody UserModel user) {
-        // Aquí puedes añadir validaciones antes de llamar al servicio
         UserModel savedUser = this.userService.saveUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -66,7 +87,27 @@ public class UserController {
         if (ok) {
             return ResponseEntity.ok("Usuario con ID " + id + " eliminado exitosamente.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error, no se pudo eliminar el usuario con ID " + id + " (puede que no exista o haya ocurrido un error interno).");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error, no se pudo eliminar el usuario con ID " + id + ". Verifique que el ID es correcto.");
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+        if (loginRequest.getCorreo() == null || loginRequest.getPassword() == null ||
+                loginRequest.getCorreo().isEmpty() || loginRequest.getPassword().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "Correo y contraseña son requeridos"));
+        }
+
+        Optional<UserModel> userOptional = userService.loginUser(loginRequest.getCorreo(), loginRequest.getPassword());
+
+        if (userOptional.isPresent()) {
+            UserModel user = userOptional.get();
+            user.setPassword(null);
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", "Correo o contraseña inválidos"));
         }
     }
 }

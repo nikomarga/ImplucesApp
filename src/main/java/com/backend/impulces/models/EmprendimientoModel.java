@@ -1,5 +1,6 @@
 package com.backend.impulces.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,17 +12,16 @@ public class EmprendimientoModel {
     @Column(name = "Id")
     private Integer id;
 
-    @Column(name = "Nombre_servicio", nullable = false, length = 100)
+    @Column(name = "Nombre_servicio", length = 100, nullable = false)
     private String nombreServicio;
 
-    @Column(name = "Categoria_servicio", nullable = false, length = 100)
+    @Column(name = "Categoria_servicio", length = 100, nullable = false)
     private String categoriaServicio;
 
-    @Lob // Para campos TEXT
     @Column(name = "Descripcion_servicio", columnDefinition = "TEXT")
     private String descripcionServicio;
 
-    @Column(name = "Img_1", nullable = false, length = 500)
+    @Column(name = "Img_1", length = 500, nullable = false)
     private String img1;
 
     @Column(name = "Img_2", length = 500)
@@ -38,10 +38,8 @@ public class EmprendimientoModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Creado_por", referencedColumnName = "Usuario")
+    @JsonBackReference
     private UserModel creadoPorUsuario;
-
-    public EmprendimientoModel() {
-    }
 
     public Integer getId() {
         return id;
