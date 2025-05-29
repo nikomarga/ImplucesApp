@@ -21,19 +21,19 @@ public class EmprendimientoModel {
     @Column(name = "Descripcion_servicio", columnDefinition = "TEXT")
     private String descripcionServicio;
 
-    @Column(name = "Img_1", length = 500, nullable = false)
+    @Column(name = "Img_1", length = 300, nullable = false)
     private String img1;
 
-    @Column(name = "Img_2", length = 500)
+    @Column(name = "Img_2", length = 300)
     private String img2;
 
-    @Column(name = "Img_3", length = 500)
+    @Column(name = "Img_3", length = 300)
     private String img3;
 
-    @Column(name = "Img_4", length = 500)
+    @Column(name = "Img_4", length = 300)
     private String img4;
 
-    @Column(name = "Img_5", length = 500)
+    @Column(name = "Img_5", length = 300)
     private String img5;
 
     @ManyToOne(fetch = FetchType.LAZY)

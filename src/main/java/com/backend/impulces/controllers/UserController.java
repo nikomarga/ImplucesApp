@@ -38,7 +38,7 @@ public class UserController {
             this.password = password;
         }
     }
-
+    
     @GetMapping
     public ArrayList<UserModel> getUsers() {
         return this.userService.getUsers();

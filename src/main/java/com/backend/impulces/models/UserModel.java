@@ -35,7 +35,6 @@ public class UserModel {
     @JsonManagedReference
     private List<EmprendimientoModel> emprendimientos;
 
-
     public Integer getId() {
         return id;
     }
