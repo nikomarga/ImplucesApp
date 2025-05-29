@@ -1,7 +1,7 @@
 export default function Aside() {
   return (
     <>
-         <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+         <ul className="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style={{"background":"linear-gradient(90deg, #ec008c, #f367b7)"}}>
 
             {/* <!-- Sidebar - Brand --> */}
             <a className="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
