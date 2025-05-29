@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,53 +15,81 @@ import java.util.Optional;
 public class EmprendimientoController {
 
     @Autowired
-    private EmprendimientoService emprendimientoService; 
+    private EmprendimientoService emprendimientoService;
 
-    @GetMapping
-    public ArrayList<EmprendimientoModel> getEmprendimientos() {
-        return this.emprendimientoService.getEmprendimientos();
-    }
+    public static class CreateEmprendimientoRequest {
+        private EmprendimientoModel emprendimiento;
+        private String correoUsuario;
 
-    @PostMapping
-    public ResponseEntity<?> saveEmprendimiento(@RequestBody EmprendimientoModel emprendimiento,
-                                                @RequestParam String creadorUsuario) {
-        try {
-            EmprendimientoModel savedEmprendimiento = this.emprendimientoService.saveEmprendimiento(emprendimiento, creadorUsuario);
-            return new ResponseEntity<>(savedEmprendimiento, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        public EmprendimientoModel getEmprendimiento() {
+            return emprendimiento;
+        }
+
+        public void setEmprendimiento(EmprendimientoModel emprendimiento) {
+            this.emprendimiento = emprendimiento;
+        }
+
+        public String getCorreoUsuario() {
+            return correoUsuario;
+        }
+
+        public void setCorreoUsuario(String correoUsuario) {
+            this.correoUsuario = correoUsuario;
         }
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<EmprendimientoModel> getEmprendimientoById(@PathVariable("id") Integer id) {
-        Optional<EmprendimientoModel> emprendimiento = this.emprendimientoService.getEmprendimientoById(id);
+    @GetMapping
+    public ResponseEntity<List<EmprendimientoModel>> getAllEmprendimientos() {
+        List<EmprendimientoModel> emprendimientos = emprendimientoService.getAllEmprendimientos();
+        return ResponseEntity.ok(emprendimientos);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmprendimientoModel> getEmprendimientoById(@PathVariable Integer id) {
+        Optional<EmprendimientoModel> emprendimiento = emprendimientoService.getEmprendimientoById(id);
         return emprendimiento.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping(path = "/porCreador/{nombreUsuarioCreador}")
-    public List<EmprendimientoModel> getEmprendimientosPorCreador(@PathVariable String nombreUsuarioCreador) {
-        return this.emprendimientoService.getEmprendimientosByCreador(nombreUsuarioCreador);
+    @PostMapping
+    public ResponseEntity<?> createEmprendimiento(@RequestBody CreateEmprendimientoRequest request) {
+        try {
+            EmprendimientoModel nuevoEmprendimiento = emprendimientoService.saveEmprendimiento(request.getEmprendimiento(), request.getCorreoUsuario());
+            return new ResponseEntity<>(nuevoEmprendimiento, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<EmprendimientoModel> updateEmprendimientoById(@RequestBody EmprendimientoModel request, @PathVariable("id") Integer id) {
-        EmprendimientoModel updatedEmprendimiento = this.emprendimientoService.updateEmprendimientoById(request, id);
-        if (updatedEmprendimiento != null) {
+    @PutMapping("/{id}")
+    public ResponseEntity<EmprendimientoModel> updateEmprendimiento(@PathVariable Integer id, @RequestBody EmprendimientoModel emprendimientoDetails) {
+        try {
+            EmprendimientoModel updatedEmprendimiento = emprendimientoService.updateEmprendimiento(id, emprendimientoDetails);
             return ResponseEntity.ok(updatedEmprendimiento);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEmprendimiento(@PathVariable Integer id) {
+        boolean deleted = emprendimientoService.deleteEmprendimiento(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity<String> deleteEmprendimientoById(@PathVariable("id") Integer id) {
-        boolean ok = this.emprendimientoService.deleteEmprendimiento(id);
-        if (ok) {
-            return ResponseEntity.ok("Emprendimiento con ID " + id + " eliminado exitosamente.");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error, no se pudo eliminar el emprendimiento con ID " + id);
+    @GetMapping("/buscar")
+    public ResponseEntity<List<EmprendimientoModel>> buscarEmprendimientosPorNombre(@RequestParam String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(List.of());
         }
+        List<EmprendimientoModel> emprendimientos = emprendimientoService.buscarPorNombre(nombre);
+        if (emprendimientos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(emprendimientos);
     }
 }

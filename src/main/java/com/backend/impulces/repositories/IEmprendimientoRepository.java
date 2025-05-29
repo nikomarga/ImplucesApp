@@ -9,4 +9,5 @@ import java.util.List;
 public interface IEmprendimientoRepository extends JpaRepository<EmprendimientoModel, Integer> {
     List<EmprendimientoModel> findByCreadoPorUsuario_Usuario(String nombreUsuario);
     List<EmprendimientoModel> findByCategoriaServicio(String categoria);
+    List<EmprendimientoModel> findByNombreServicioContainingIgnoreCase(String nombre);
 }
