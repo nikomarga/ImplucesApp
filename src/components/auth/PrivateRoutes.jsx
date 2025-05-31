@@ -1,11 +1,10 @@
 import { Outlet, Navigate } from 'react-router-dom';
 
 const isAuthenticated = () => {
-  // Puedes verificar si existe un token o un usuario válido
-  const token = localStorage.getItem('token'); // o 'usuario'
-  return !!token;
+  const usuario = localStorage.getItem('usuario');
+  return !!usuario; // Devuelve true si hay un usuario en localStorage
 };
 
 export default function PrivateRoutes() {
-  return isAuthenticated() ? <Outlet /> : <Navigate to="/Login" />;
+  return isAuthenticated() ? <Outlet /> : <Navigate to="/Login" replace />;
 }

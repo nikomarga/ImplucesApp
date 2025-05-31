@@ -9,11 +9,7 @@ export default function CrearCuenta() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     primerNombre: '',
-    segundoNombre: '',
     primerApellido: '',
-    segundoApellido: '',
-    tipoDocumento: '',
-    numeroDocumento: '',
     sede: '',
     fechaNacimiento: '',
     escuela: '',
@@ -71,30 +67,14 @@ export default function CrearCuenta() {
 
           <p className="login-text">
             ¿Ya estás impulsando tu negocio con nosotros? <a href="/Login">Ingresa a tu cuenta</a>
-          </p>
-
-          <form onSubmit={handleSubmit}>
+                    </p>
+          <form onSubmit={handleSubmit} className="login-form">
             <div className="form-group">
               <input type="text" placeholder="Primer Nombre" id="primerNombre" required onChange={handleChange} />
-              <input type="text" placeholder="Segundo Nombre" id="segundoNombre" onChange={handleChange} />
-            </div>
-            <div className="form-group">
               <input type="text" placeholder="Primer Apellido" id="primerApellido" required onChange={handleChange} />
-              <input type="text" placeholder="Segundo Apellido" id="segundoApellido" required onChange={handleChange} />
             </div>
             <div className="form-group">
-              <select id="tipoDocumento" required onChange={handleChange}>
-                <option value="" disabled>Tipo de documento</option>
-                <option value="CC">CC</option>
-                <option value="CE">CE</option>
-                <option value="TI">TI</option>
-                <option value="PP">PP</option>
-                <option value="PPT">PPT</option>
-              </select>
-              <input type="number" placeholder="Número de Documento" id="numeroDocumento" required onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <select id="sede"  value={formData.sede} onChange={handleChange} required>
+              <select id="sede" value={formData.sede} onChange={handleChange} required>
                 <option value="" disabled>Seleccione su Sede</option>
                 <option value="Medellín">Medellín</option>
                 <option value="Bello">Bello</option>
@@ -118,8 +98,8 @@ export default function CrearCuenta() {
             <div className="form-group">
               <input type="email" placeholder="Correo electrónico" id="email" required onChange={handleChange} />
               <input type="password" placeholder="Contraseña" id="password" required onChange={handleChange} />
-            </div>
-            <button type="submit" className="submit-btn">Crear Cuenta</button>
+           </div>
+            <button type="submit">Crear Cuenta</button>
           </form>
         </div>
       </div>

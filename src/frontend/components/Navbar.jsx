@@ -82,8 +82,11 @@ export default function Navbar() {
             <button onClick={() => handleNavigation('/perfil')} className="dropdown-item text-start">
               Mi Perfil
             </button>
-            <button onClick={() => handleNavigation('/Login')} className="dropdown-item text-start">
-              Salir
+            <button onClick={() => {
+              localStorage.removeItem('usuario');
+              navigate('/Login');
+            }}>
+              Cerrar sesión
             </button>
           </div>
         )}

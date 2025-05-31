@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
 import rocket from '../assets/images/rocket2.png';
-import degeadado from '../assets/images/degradado.png';
 import './login.css';
 
 export default function Login() {
@@ -10,45 +10,32 @@ export default function Login() {
   const [contrasena, setContrasena] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-    if (!correo || !contrasena) {
-      alert('Por favor completa todos los campos');
-      return;
-    }
+  if (!correo || !contrasena) {
+    alert('Por favor completa todos los campos');
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const response = await fetch('http://localhost:8000/usuarios/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          correo: correo,
-          password: contrasena,  // Asegúrate que el backend espera este campo
-        }),
-      });
+  try {
+    const response = await axios.post('/usuarios/login', {
+      correo: correo,
+      password: contrasena,
+    });
 
-      if (!response.ok) {
-        throw new Error('Usuario o contraseña incorrectos');
-      }
+    localStorage.setItem('usuario', JSON.stringify(response.data));
 
-      const data = await response.json();
-
-      // Aquí asumo que el backend devuelve un token y usuario
-      localStorage.setItem('token', data.token);      // si tienes token
-      localStorage.setItem('usuario', data.usuario);  // usuario o correo
-
-      setLoading(false);
-      navigate('/dashboard');  // Redirigir a dashboard tras login exitoso
-    } catch (error) {
-      setLoading(false);
-      alert(error.message);
-    }
-  };
+    setLoading(false);
+    navigate('/MainPage');
+  } catch (error) {
+    console.error('Error en el login:', error);
+    setLoading(false);
+    alert('Correo o contraseña incorrectos');
+  }
+};
 
   return (
     <div className="login-container">
@@ -68,7 +55,7 @@ export default function Login() {
           </div>
 
           <p className="login-text">
-            ¿Quieres impulsando tu negocio con nosotros? <a href="/CrearCuenta">Crea una cuenta</a>
+            ¿Quieres impulsar tu negocio con nosotros? <a href="/CrearCuenta">Crea una cuenta</a>
           </p>
 
           <form className="login-form" onSubmit={handleLogin}>
@@ -77,12 +64,14 @@ export default function Login() {
               placeholder="Correo electrónico"
               value={correo}
               onChange={(e) => setCorreo(e.target.value)}
+              required
             />
             <input
               type="password"
               placeholder="Contraseña"
               value={contrasena}
               onChange={(e) => setContrasena(e.target.value)}
+              required
             />
             <div className="login-forgot">
               <a href="#">¿Olvidaste tu contraseña?</a>
