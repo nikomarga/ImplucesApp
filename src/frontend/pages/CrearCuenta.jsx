@@ -4,106 +4,118 @@ import rocket from '../assets/images/rocket2.png';
 import degradado from '../assets/images/degradado.png';
 import './login.css';
 
-export default function crearCuenta() {
+export default function CrearCuenta() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    primerNombre: '',
-    segundoNombre: '',
-    primerApellido: '',
-    segundoApellido: '',
-    tipoDocumento: '',
-    numeroDocumento: '',
+    usuario: '',
     sede: '',
     fechaNacimiento: '',
-    escuela: '',
-    email: '',
-    password: ''
+    correo: '',
+    password: '',
+    programa: ''
   });
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
+    setFormData(prev => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert('Cuenta creada exitosamente');
-    navigate('/dashboard'); // o como quieras redirigir
+
+    if (!formData.usuario || !formData.sede || !formData.fechaNacimiento || !formData.correo || !formData.password || !formData.programa) {
+      alert('Por favor completa todos los campos obligatorios');
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost/api/usuarios.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Error al crear la cuenta');
+      }
+
+      alert('Cuenta creada exitosamente');
+      navigate('/Login');
+    } catch (error) {
+      alert('Error: ' + error.message);
+    }
   };
 
   return (
     <div className="login-container">
-      {/* Sección imagen */}
-        <div className="login-wrapper">
-        <div class="color">
-        </div>
+      <div className="login-wrapper">
+        <div className="color"></div>
         <div className="login-left">
-            <img src={rocket} alt="Rocket" />
+          <img src={rocket} alt="Rocket" />
         </div>
-        </div>
+      </div>
 
-      {/* Sección formulario */}
-    <div className='form-section'>
-      <div className="login-right">
-        <div className="contenedor_titulo">
-          <h1 className="login-title">
-            IMPUL<span>CES</span>
-          </h1>
-          <h2 className="eslogan">CONECTA TALENTO EN CESDE</h2>
-        </div>
-        
-        <p className="login-text">
-          ¿Ya estás impulsando tu negocio con nosotros? <a href="/Login">Ingreasa a tu cuenta</a>
-        </p>
+      <div className="form-section">
+        <div className="login-right">
+          <div className="contenedor_titulo">
+            <h1 className="login-title">
+              IMPUL<span>CES</span>
+            </h1>
+            <h2 className="eslogan">CONECTA TALENTO EN CESDE</h2>
+          </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <input type="text" placeholder="Primer Nombre" id="primerNombre" required onChange={handleChange} />
-              <input type="text" placeholder="Segundo Nombre" id="segundoNombre" onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <input type="text" placeholder="Primer Apellido" id="primerApellido" required onChange={handleChange} />
-              <input type="text" placeholder="Segundo Apellido" id="segundoApellido" required onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <select id="tipoDocumento" required onChange={handleChange}>
-                <option value="" disabled selected>Tipo de documento</option>
-                <option value="CC">CC</option>
-                <option value="CE">CE</option>
-                <option value="TI">TI</option>
-                <option value="PP">PP</option>
-                <option value="PPT">PPT</option>
-              </select>
-              <input type="number" placeholder="Número de Documento" id="numeroDocumento" required onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <select id="sede" required onChange={handleChange}>
-                <option value="" disabled selected>Seleccione su Sede</option>
-                <option value="Medellín">Medellín</option>
-                <option value="Bello">Bello</option>
-                <option value="Rio Negro">Rio Negro</option>
-                <option value="La Pintada">La Pintada</option>
-                <option value="Apartado">Apartado</option>
-                <option value="Bogotá">Bogotá</option>
-              </select>
-              <input type="date" id="fechaNacimiento" required onChange={handleChange} />
-            </div>
-            <div className="form-group">
-              <select id="escuela" required onChange={handleChange}>
-                <option value="" disabled selected>Seleccione la Escuela</option>
-                <option value="Nuevas Tecnologías">Nuevas Tecnologías</option>
-                <option value="Industrias Creativas">Industrias Creativas</option>
-                <option value="Gastronomía y Turismo">Gastronomía y Turismo</option>
-                <option value="Desarrollo Empresarial">Desarrollo Empresarial</option>
-                <option value="Salud y Cuidado">Salud y Cuidado</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <input type="email" placeholder="Correo electrónico" id="email" required onChange={handleChange} />
-              <input type="password" placeholder="Contraseña" id="password" maxLength="4" required onChange={handleChange} />
-            </div>
-            <button type="submit" className="submit-btn">Crear Cuenta</button>
+          <p className="login-text">
+            ¿Ya estás impulsando tu negocio con nosotros? <a href="/Login">Ingresa a tu cuenta</a>
+          </p>
+
+          <form className="login-form" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Usuario"
+              id="usuario"
+              required
+              onChange={handleChange}
+            />
+            <select id="sede" required onChange={handleChange} defaultValue="">
+              <option value="" disabled>Seleccione su Sede</option>
+              <option value="Medellín">Medellín</option>
+              <option value="Bello">Bello</option>
+              <option value="Rio Negro">Rio Negro</option>
+              <option value="La Pintada">La Pintada</option>
+              <option value="Apartado">Apartado</option>
+              <option value="Bogotá">Bogotá</option>
+            </select>
+            <input
+              type="date"
+              id="fechaNacimiento"
+              required
+              onChange={handleChange}
+            />
+            <input
+              type="email"
+              placeholder="Correo electrónico"
+              id="correo"
+              required
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              placeholder="Contraseña"
+              id="password"
+              required
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              placeholder="Programa"
+              id="programa"
+              required
+              onChange={handleChange}
+            />
+            <button type="submit">
+              Crear Cuenta
+            </button>
           </form>
         </div>
       </div>

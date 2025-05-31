@@ -1,9 +1,13 @@
-import React from 'react'
+import { Outlet, Navigate } from 'react-router-dom';
 
-export default function PublicRoutes() {
-  return (
-    <div>
-      <h1>Rutas Publicas</h1>
-    </div>
-  )
-}
+// Simula una función para saber si el usuario está autenticado
+const isAuthenticated = () => {
+  const token = localStorage.getItem('token');
+  return !!token;
+};
+
+const PublicRoutes = () => {
+  return isAuthenticated() ? <Navigate to="/MainPage" /> : <Outlet />;
+};
+
+export default PublicRoutes;

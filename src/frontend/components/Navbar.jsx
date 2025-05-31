@@ -19,7 +19,7 @@ export default function Navbar() {
         <button 
         className='bg-white' 
         style={{border: 'none'}} 
-        onClick={() => navigate('/')}>
+        onClick={() => navigate('/MainPage')}>
           <div>
             <h1 className="m-0 fw-bold" style={{ fontSize: '2.2rem' }}>
               IMPUL<span style={{ color: '#ec008c' }}>CES</span>

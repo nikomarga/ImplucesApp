@@ -1,9 +1,11 @@
-import React from 'react'
+import { Outlet, Navigate } from 'react-router-dom';
+
+const isAuthenticated = () => {
+  // Puedes verificar si existe un token o un usuario válido
+  const token = localStorage.getItem('token'); // o 'usuario'
+  return !!token;
+};
 
 export default function PrivateRoutes() {
-  return (
-    <div>
-      <h1>Rutas Privadas</h1>
-    </div>
-  )
+  return isAuthenticated() ? <Outlet /> : <Navigate to="/Login" />;
 }
