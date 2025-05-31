@@ -2,9 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import rocket from '../assets/images/rocket2.png';
 import degradado from '../assets/images/degradado.png';
+import axios from 'axios';
 import './login.css';
 
-export default function crearCuenta() {
+export default function CrearCuenta() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     primerNombre: '',
@@ -25,18 +26,34 @@ export default function crearCuenta() {
     setFormData({ ...formData, [id]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    alert('Cuenta creada exitosamente');
-    navigate('/dashboard'); // o como quieras redirigir
-  };
 
+    // Construimos el objeto para enviar al backend
+    const payload = {
+      usuario: `${formData.primerNombre}${formData.primerApellido}`.toLowerCase(),
+      sede: formData.sede,
+      fechaNacimiento: formData.fechaNacimiento,
+      correo: formData.email,
+      password: formData.password,
+      programa: formData.escuela
+    };
+    try {
+    const response = await axios.post('/usuarios', payload);
+    console.log('Respuesta del servidor:', response.data);
+
+    alert('Cuenta creada exitosamente');
+    navigate('/perfil');
+  } catch (error) {
+    console.error('Error al crear cuenta:', error.response?.data || error.message);
+    alert('Ocurrió un error al crear la cuenta. Intenta nuevamente.');
+  }
+}
   return (
     <div className="login-container">
       {/* Sección imagen */}
         <div className="login-wrapper">
-        <div class="color">
+        <div className="color">
         </div>
         <div className="login-left">
             <img src={rocket} alt="Rocket" />
@@ -68,7 +85,7 @@ export default function crearCuenta() {
             </div>
             <div className="form-group">
               <select id="tipoDocumento" required onChange={handleChange}>
-                <option value="" disabled selected>Tipo de documento</option>
+                <option value="" disabled>Tipo de documento</option>
                 <option value="CC">CC</option>
                 <option value="CE">CE</option>
                 <option value="TI">TI</option>
@@ -78,8 +95,8 @@ export default function crearCuenta() {
               <input type="number" placeholder="Número de Documento" id="numeroDocumento" required onChange={handleChange} />
             </div>
             <div className="form-group">
-              <select id="sede" required onChange={handleChange}>
-                <option value="" disabled selected>Seleccione su Sede</option>
+              <select id="sede"  value={formData.sede} onChange={handleChange} required>
+                <option value="" disabled>Seleccione su Sede</option>
                 <option value="Medellín">Medellín</option>
                 <option value="Bello">Bello</option>
                 <option value="Rio Negro">Rio Negro</option>
@@ -91,7 +108,7 @@ export default function crearCuenta() {
             </div>
             <div className="form-group">
               <select id="escuela" required onChange={handleChange}>
-                <option value="" disabled selected>Seleccione la Escuela</option>
+                <option value="" disabled >Seleccione la Escuela</option>
                 <option value="Nuevas Tecnologías">Nuevas Tecnologías</option>
                 <option value="Industrias Creativas">Industrias Creativas</option>
                 <option value="Gastronomía y Turismo">Gastronomía y Turismo</option>
@@ -101,7 +118,7 @@ export default function crearCuenta() {
             </div>
             <div className="form-group">
               <input type="email" placeholder="Correo electrónico" id="email" required onChange={handleChange} />
-              <input type="password" placeholder="Contraseña" id="password" maxLength="4" required onChange={handleChange} />
+              <input type="password" placeholder="Contraseña" id="password" required onChange={handleChange} />
             </div>
             <button type="submit" className="submit-btn">Crear Cuenta</button>
           </form>

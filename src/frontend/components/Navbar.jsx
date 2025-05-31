@@ -1,17 +1,27 @@
-import { useState } from 'react';
+
 import { useNavigate } from 'react-router-dom';
 import "./Navbar.css"
 import rocket from "../assets/images/rocket2.png";
+import { useState, useEffect } from 'react';
+
 
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [imagenPerfil, setImagenPerfil] = useState(null);
 
   const handleNavigation = (path) => {
     navigate(path);
     setOpen(false); // Cierra el menú después de navegar
   };
+
+  useEffect(() => {
+  const imagenGuardada = localStorage.getItem("imagenPerfil");
+  if (imagenGuardada) {
+    setImagenPerfil(imagenGuardada);
+  }
+}, []);
   return (
     <header className="container-fluid py-3 d-flex header justify-content-between align-items-center bg-white">
       <div className="d-flex align-items-center">
@@ -54,12 +64,12 @@ export default function Navbar() {
           className="rounded-circle bg-white p-0"
           style={{ width: '54px', height: '54px', border: 'none' }}
         >
-          <img
-            src="https://images.pexels.com/photos/14592814/pexels-photo-14592814.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
-            alt="Perfil"
-            className="rounded-circle"
-            style={{ width: '50px', height: '50px', objectFit: 'cover' }}
-          />
+        <img
+          src={imagenPerfil || "https://via.placeholder.com/150"}
+          alt="Perfil"
+          className="rounded-circle"
+          style={{ width: '50px', height: '50px', objectFit: 'cover' }}
+        />
         </button>
         <p className="m-0" style={{ fontSize: '0.8rem' }}>Mi Perfil</p>
 
