@@ -20,12 +20,12 @@ export default function CrearCuenta() {
     email: '',
     password: ''
   });
-
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData({ ...formData, [id]: value });
+    setFormData(prev => ({ ...prev, [id]: value }));
   };
 
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,23 +56,22 @@ export default function CrearCuenta() {
         <div className="color">
         </div>
         <div className="login-left">
-            <img src={rocket} alt="Rocket" />
+          <img src={rocket} alt="Rocket" />
         </div>
-        </div>
+      </div>
 
-      {/* Sección formulario */}
-    <div className='form-section'>
-      <div className="login-right">
-        <div className="contenedor_titulo">
-          <h1 className="login-title">
-            IMPUL<span>CES</span>
-          </h1>
-          <h2 className="eslogan">CONECTA TALENTO EN CESDE</h2>
-        </div>
-        
-        <p className="login-text">
-          ¿Ya estás impulsando tu negocio con nosotros? <a href="/Login">Ingreasa a tu cuenta</a>
-        </p>
+      <div className="form-section">
+        <div className="login-right">
+          <div className="contenedor_titulo">
+            <h1 className="login-title">
+              IMPUL<span>CES</span>
+            </h1>
+            <h2 className="eslogan">CONECTA TALENTO EN CESDE</h2>
+          </div>
+
+          <p className="login-text">
+            ¿Ya estás impulsando tu negocio con nosotros? <a href="/Login">Ingresa a tu cuenta</a>
+          </p>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
