@@ -35,6 +35,13 @@ public class UserModel {
     @JsonManagedReference
     private List<EmprendimientoModel> emprendimientos;
 
+    @Lob
+    @Column(name = "profile_img")
+    private byte[] profileImg;
+
+    @Column(name = "usertype", length = 50, nullable = false)
+    private String usertype = "student";
+
     public Integer getId() {
         return id;
     }
@@ -98,4 +105,12 @@ public class UserModel {
     public void setEmprendimientos(List<EmprendimientoModel> emprendimientos) {
         this.emprendimientos = emprendimientos;
     }
+
+    public byte[] getProfileImg() { return profileImg; }
+
+    public void setProfileImg(byte[] profileImg) { this.profileImg = profileImg; }
+
+    public String getUsertype() { return usertype; }
+
+    public void setUsertype(String usertype) { this.usertype = usertype; }
 }
