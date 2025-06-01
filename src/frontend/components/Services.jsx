@@ -1,75 +1,50 @@
-import "./Services.css"
-  const servicios = [
-  {
-    titulo: "Manicure & Pedicure",
-    autor: "Susan Williams",
-    rating: 5,
-    descripcion:"Servicio de manicure con las últimas tendencias y materiales de alta duración. Realizo servicio a domicilio en todo el valle de Aburrá. Días se semana descuento especiales 😉",
-    imagenPerfil: "https://media.istockphoto.com/id/1389348844/es/foto/foto-de-estudio-de-una-hermosa-joven-sonriendo-mientras-est%C3%A1-de-pie-sobre-un-fondo-gris.jpg?s=612x612&w=0&k=20&c=kUufmNoTnDcRbyeHhU1wRiip-fNjTWP9owjHf75frFQ=",
-    imagenes: [
-      "https://images.pexels.com/photos/9393756/pexels-photo-9393756.jpeg?auto=compress&cs=tinysrgb&w=300", 
-      "https://images.pexels.com/photos/15491630/pexels-photo-15491630/free-photo-of-manos-mujer-delicado-forma-de-corazon.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/17010953/pexels-photo-17010953/free-photo-of-rojo-mujer-mano-salon-de-belleza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/1164339/pexels-photo-1164339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/887352/pexels-photo-887352.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"],
-  },
-  {
-    titulo: "Cortes de Cabello",
-    autor: "Juan Orozco",
-    rating: 5,
-    descripcion:
-      "Mejores estilos solo para caballeros. Ubicados en la avenida la oriental, en el centro de Medellín. Encuentra la motilada que necesitas en un solo lugar por un excelente precio.💇‍♂️",
-    imagenPerfil: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    imagenes: [
-      "https://images.pexels.com/photos/9393756/pexels-photo-9393756.jpeg?auto=compress&cs=tinysrgb&w=300", 
-      "https://images.pexels.com/photos/15491630/pexels-photo-15491630/free-photo-of-manos-mujer-delicado-forma-de-corazon.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/17010953/pexels-photo-17010953/free-photo-of-rojo-mujer-mano-salon-de-belleza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/1164339/pexels-photo-1164339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/887352/pexels-photo-887352.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"],
-  },
-  {
-    titulo: "Clases de Inglés",
-    autor: "Jose Suarez",
-    rating: 4,
-    descripcion:
-      "Ofrecemos clases de inglés adaptadas a tu nivel y necesidades. Mejora tus habilidades para el trabajo, estudios o simplemente aprende un nuevo idioma.",
-    imagenPerfil: "/img/hombre2.jpg",
-    imagenes: [
-      "https://images.pexels.com/photos/9393756/pexels-photo-9393756.jpeg?auto=compress&cs=tinysrgb&w=300", 
-      "https://images.pexels.com/photos/15491630/pexels-photo-15491630/free-photo-of-manos-mujer-delicado-forma-de-corazon.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/17010953/pexels-photo-17010953/free-photo-of-rojo-mujer-mano-salon-de-belleza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/1164339/pexels-photo-1164339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/887352/pexels-photo-887352.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"],
-  },
-  {
-    titulo: "Postres Artesanales",
-    autor: "Juliana Garcia",
-    rating: 3,
-    descripcion:
-      "Variedad de tortas, cupcakes y postres fríos elaborados con ingredientes frescos. Ideales para eventos como cumpleaños, bodas o reuniones.",
-    imagenPerfil: "/img/mujer2.jpg",
-    imagenes: [
-      "https://images.pexels.com/photos/9393756/pexels-photo-9393756.jpeg?auto=compress&cs=tinysrgb&w=300", 
-      "https://images.pexels.com/photos/15491630/pexels-photo-15491630/free-photo-of-manos-mujer-delicado-forma-de-corazon.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/17010953/pexels-photo-17010953/free-photo-of-rojo-mujer-mano-salon-de-belleza.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/1164339/pexels-photo-1164339.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", 
-      "https://images.pexels.com/photos/887352/pexels-photo-887352.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"],
-  },
-];
+import React, { useEffect, useState } from "react";
+import "./Services.css";
 
 export default function Services() {
+  const [servicios, setServicios] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/emprendimientos")
+      .then((res) => {
+        if (!res.ok) throw new Error("Error al obtener emprendimientos");
+        return res.json();
+      })
+      .then((data) => {
+        // Mapear emprendimientos y armar URLs de imágenes
+        const serviciosFormateados = data.map((item) => {
+          // Armar arreglo con URLs para las 5 posibles imágenes
+          const imagenes = [];
+          for (let i = 1; i <= 5; i++) {
+            // Aquí asumo que si la imagen no existe, el backend devuelve 404
+            imagenes.push(`http://localhost:8000/emprendimientos/imagen/${item.id}/${i}`);
+          }
+
+          return {
+            id: item.id,
+            titulo: item.nombreServicio,
+            autor: item.creadoPor || "Desconocido",
+            descripcion: item.descripcionServicio,
+            rating: item.rating || 4,
+            imagenPerfil: "/default-avatar.png", // o un campo en tu modelo si tienes avatar
+            imagenes,
+          };
+        });
+        setServicios(serviciosFormateados);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
- <section className="services-container">
+    <section className="services-container">
       {servicios.map((servicio, idx) => (
         <div key={idx} className="service-card">
           <div className="service-header">
             {/* Avatar */}
             <div className="avatar-container">
-              <img
-                src={servicio.imagenPerfil}
-                alt="avatar"
-                className="avatar"
-              />
+              <img src={servicio.imagenPerfil} alt="avatar" className="avatar" />
             </div>
 
             {/* Info */}
@@ -89,16 +64,18 @@ export default function Services() {
               </div>
             </div>
           </div>
-        
 
           {/* Galería */}
           <div className="gallery">
-            {servicio.imagenes.map((img, i) => (
+            {servicio.imagenes.map((imgUrl, i) => (
               <img
                 key={i}
-                src={img}
-                alt="foto"
+                src={imgUrl}
+                alt={`foto ${i + 1}`}
                 className="gallery-img"
+                onError={(e) => {
+                  e.target.style.display = "none"; // Ocultar imagen si no existe o no carga
+                }}
               />
             ))}
           </div>

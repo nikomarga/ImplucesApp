@@ -1,15 +1,52 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
 import Navbar from './../components/Navbar';
 import Footer from './../components/Footer';
-import React, { useState } from 'react';
-import "./AgregarServicios.css"
-export default function AgregarServicio() {
+import "./AgregarServicios.css";
 
+export default function AgregarServicio() {
+  
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const correoUsuario = usuario?.correo || "";
+  const [nombre, setNombre] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const [imagenes, setImagenes] = useState([]);
+
   const handleImagenes = (e) => {
     const files = Array.from(e.target.files);
-    const previews = files.map(file => URL.createObjectURL(file));
-    setImagenes(prev => [...prev, ...previews]);
+    setImagenes(prev => [...prev, ...files]);
+  };
+
+  const publicarEmprendimiento = async () => {
+    const formData = new FormData();
+    formData.append("nombreServicio", nombre);
+    formData.append("categoriaServicio", categoria);
+    formData.append("descripcionServicio", descripcion);
+    formData.append("correoUsuario", correoUsuario);
+
+    imagenes.forEach(img => {
+      formData.append("imagenes", img);
+    });
+
+for (let [key, value] of formData.entries()) {
+  console.log(`${key}:`, value);
+}
+
+    try {
+      const res = await fetch("/emprendimientos/subir", {
+        method: "POST",
+        body: formData
+      });
+
+      if (res.ok) {
+        alert("¡Emprendimiento publicado exitosamente!");
+      } else {
+        const error = await res.text();
+        alert("Error: " + error);
+      }
+    } catch (err) {
+      alert("Error de conexión con el servidor");
+    }
   };
 
   return (
@@ -17,7 +54,7 @@ export default function AgregarServicio() {
       <Navbar />
       <div className="container my-4">
         <div className="text-center mb-4">
-          <button className="btn btn-pink px-4 py-2">
+          <button className="btn btn-pink px-4 py-2" onClick={publicarEmprendimiento}>
             <i className="bi bi-send-fill me-2"></i> Publicar
           </button>
         </div>
@@ -25,10 +62,20 @@ export default function AgregarServicio() {
         <div className="card p-4 shadow-sm">
           <div className="row mb-3">
             <div className="col-md-6 mb-3 mb-md-0">
-              <input type="text" className="form-control" placeholder="Nombre de tu emprendimiento" />
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Nombre de tu emprendimiento"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+              />
             </div>
             <div className="col-md-6">
-              <select className="form-control" defaultValue="">
+              <select
+                className="form-control"
+                value={categoria}
+                onChange={(e) => setCategoria(e.target.value)}
+              >
                 <option value="" disabled>Selecciona una categoría</option>
                 <option value="educacion">Educación</option>
                 <option value="belleza">Belleza</option>
@@ -39,7 +86,13 @@ export default function AgregarServicio() {
           </div>
 
           <div className="mb-3">
-            <textarea className="form-control" rows="4" placeholder="Describe tu servicio aqui"></textarea>
+            <textarea
+              className="form-control"
+              rows="4"
+              placeholder="Describe tu servicio aquí"
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+            />
           </div>
 
           <div className="mb-3">
@@ -58,12 +111,13 @@ export default function AgregarServicio() {
           <div className="row">
             {imagenes.map((img, index) => (
               <div key={index} className="col-4 col-md-2 mb-3">
-                <img src={img} alt={`preview-${index}`} className="img-thumbnail" />
+                <img src={URL.createObjectURL(img)} alt={`preview-${index}`} className="img-thumbnail" />
               </div>
             ))}
           </div>
         </div>
-      </div>  
+      </div>
+      <Footer />
     </>
   );
 }
