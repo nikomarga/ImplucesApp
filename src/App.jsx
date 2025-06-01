@@ -6,74 +6,104 @@ import StudentPage from './admin/pages/StudentPage';
 import Perfil from './frontend/pages/Perfil';
 import Login from './frontend/pages/Login';
 import CrearCuenta from './frontend/pages/CrearCuenta';
-import AgregarServicio from './frontend/pages/AgregarServicio'
+import AgregarServicio from './frontend/pages/AgregarServicio';
 import Nosotros from './frontend/pages/Nosotros';
 import Contactanos from './frontend/pages/Contactanos';
 import MainPage from './frontend/pages/MainPage';
-import Navbar from './frontend/components/Navbar';
-import Hero from './frontend/components/Hero';
-import Services from './frontend/components/Services';
 import Footer from './frontend/components/Footer';
-import Buscar from './frontend/components/Buscar';
-import NotFoundPage from './frontend/pages/NotFoundPage'
+import NotFoundPage from './frontend/pages/NotFoundPage';
 
 /* Logic Components */
-import PrivateRoutes from './components/auth/PrivateRoutes'
-import PublicRoutes from './components/auth/PublicRoutes'
-import RoleRoutes from './components/auth/RoleRoutes'
+import PrivateRoutes from './components/auth/PrivateRoutes';
+import PublicRoutes from './components/auth/PublicRoutes';
+import RoleRoutes from './components/auth/RoleRoutes';
 
 function App() {
-
   return (
-    
-      <Router>
-        <Routes>
-              <Route path="/" element={<Navigate to="/Login" />} />
-          {/* Rutas Publicas */}
-          <Route element={<PublicRoutes/>}>
-              <Route path="/Login" element={<Login />} />
-              <Route path='/Nosotros' element={<Nosotros/>}/>
-              <Route path='/Contactanos' element={<Contactanos/>}/>
-              <Route path="/CrearCuenta" element={<CrearCuenta />} />
-              <Route path="/MainPage" element={<MainPage/>}/>
-          </Route>
+    <Router>
+      <Routes>
+        {/* Default redirect to Login */}
+        <Route path="/" element={<Navigate to="/Login" />} />
 
-          {/* Rutas Privadas */}
-          <Route element={<PrivateRoutes/>}>
-              <Route path="/dashboard" element={
-                <RoleRoutes allowedRoles={["admin", "student"]}>
-                  <Dashboard/>
-                </RoleRoutes>
-              }/>
+        {/* Public Routes */}
+        <Route element={<PublicRoutes />}>
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Nosotros" element={<Nosotros />} />
+          <Route path="/Contactanos" element={<Contactanos />} />
+          <Route path="/CrearCuenta" element={<CrearCuenta />} />
+          <Route path="/MainPage" element={<MainPage />} />
+        </Route>
 
-              <Route path="/dashboard/reports" element={
-                <RoleRoutes allowedRoles={["admin", "student"]}>
-                  <ReportsPage/>
-                </RoleRoutes>
-              }/>
+        {/* Private + Role-protected Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoutes>
+              <RoleRoutes allowedRoles={['admin', 'student']}>
+                <Dashboard />
+              </RoleRoutes>
+            </PrivateRoutes>
+          }
+        />
 
-              <Route path="/dashboard/admin" element={
-                <RoleRoutes allowedRoles={["admin"]}>
-                  <AdminPage/>
-                </RoleRoutes>
-              }/>
+        <Route
+          path="/dashboard/reports"
+          element={
+            <PrivateRoutes>
+              <RoleRoutes allowedRoles={['admin', 'student']}>
+                <ReportsPage />
+              </RoleRoutes>
+            </PrivateRoutes>
+          }
+        />
 
-              <Route path="/dashboard/student" element={
-                <RoleRoutes allowedRoles={["student"]}>
-                  <StudentPage/>
-                </RoleRoutes>
-              }/>
-                  <Route path="/perfil" element={<Perfil />} />
-                  <Route path="/AgregarServicio" element={<AgregarServicio/>}/>
-          </Route>
+        <Route
+          path="/dashboard/admin"
+          element={
+            <PrivateRoutes>
+              <RoleRoutes allowedRoles={['admin']}>
+                <AdminPage />
+              </RoleRoutes>
+            </PrivateRoutes>
+          }
+        />
 
-          {/* Rutas 404 */}
-          <Route path='*' element={<NotFoundPage/>}/>
+        <Route
+          path="/dashboard/student"
+          element={
+            <PrivateRoutes>
+              <RoleRoutes allowedRoles={['student']}>
+                <StudentPage />
+              </RoleRoutes>
+            </PrivateRoutes>
+          }
+        />
 
-        </Routes>
-        <Footer />
-      </Router>
+        <Route
+          path="/perfil"
+          element={
+            <PrivateRoutes>
+              <Perfil />
+            </PrivateRoutes>
+          }
+        />
+
+        <Route
+          path="/AgregarServicio"
+          element={
+            <PrivateRoutes>
+              <AgregarServicio />
+            </PrivateRoutes>
+          }
+        />
+
+        {/* 404 Not Found */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+
+      <Footer />
+    </Router>
   );
 }
 
-export default App
+export default App;
