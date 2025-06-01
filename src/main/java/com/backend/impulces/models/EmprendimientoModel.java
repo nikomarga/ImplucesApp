@@ -21,20 +21,25 @@ public class EmprendimientoModel {
     @Column(name = "Descripcion_servicio", columnDefinition = "TEXT")
     private String descripcionServicio;
 
-    @Column(name = "Img_1", length = 300, nullable = false)
-    private String img1;
+    @Lob
+    @Column(name = "Img_1")
+    private byte[] img1;
 
-    @Column(name = "Img_2", length = 300)
-    private String img2;
+    @Lob
+    @Column(name = "Img_2")
+    private byte[] img2;
 
-    @Column(name = "Img_3", length = 300)
-    private String img3;
+    @Lob
+    @Column(name = "Img_3")
+    private byte[] img3;
 
-    @Column(name = "Img_4", length = 300)
-    private String img4;
+    @Lob
+    @Column(name = "Img_4")
+    private byte[] img4;
 
-    @Column(name = "Img_5", length = 300)
-    private String img5;
+    @Lob
+    @Column(name = "Img_5")
+    private byte[] img5;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Creado_por", referencedColumnName = "Usuario")
@@ -73,43 +78,43 @@ public class EmprendimientoModel {
         this.descripcionServicio = descripcionServicio;
     }
 
-    public String getImg1() {
+    public byte[] getImg1() {
         return img1;
     }
 
-    public void setImg1(String img1) {
+    public void setImg1(byte[] img1) {
         this.img1 = img1;
     }
 
-    public String getImg2() {
+    public byte[] getImg2() {
         return img2;
     }
 
-    public void setImg2(String img2) {
+    public void setImg2(byte[] img2) {
         this.img2 = img2;
     }
 
-    public String getImg3() {
+    public byte[] getImg3() {
         return img3;
     }
 
-    public void setImg3(String img3) {
+    public void setImg3(byte[] img3) {
         this.img3 = img3;
     }
 
-    public String getImg4() {
+    public byte[] getImg4() {
         return img4;
     }
 
-    public void setImg4(String img4) {
+    public void setImg4(byte[] img4) {
         this.img4 = img4;
     }
 
-    public String getImg5() {
+    public byte[] getImg5() {
         return img5;
     }
 
-    public void setImg5(String img5) {
+    public void setImg5(byte[] img5) {
         this.img5 = img5;
     }
 
