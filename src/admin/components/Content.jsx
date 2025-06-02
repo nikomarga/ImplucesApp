@@ -5,7 +5,7 @@ export default function Content() {
   return (
     <>
           {/*<!-- Content Wrapper --> */}
-        <div id="content-wrapper" classNameName="d-flex flex-column">
+        <div id="content-wrapper" className="d-flex flex-column">
         <Navbar/>
             {/* <!-- Main Content --> */}
             <div id="content">
@@ -18,8 +18,7 @@ export default function Content() {
                     </div>           
             {/* AQUI VA EL CONTENIDO DEL DASHBOARD va con rutas y codigo JS */}
             
-            </div>
-            <Footer/>     
+            </div> 
         </div>
     </> 
   )

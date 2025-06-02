@@ -10,32 +10,34 @@ export default function Login() {
   const [contrasena, setContrasena] = useState('');
   const [loading, setLoading] = useState(false);
 
-const handleLogin = async (e) => {
-  e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
-  if (!correo || !contrasena) {
-    alert('Por favor completa todos los campos');
-    return;
-  }
+    if (!correo || !contrasena) {
+      alert('Por favor completa todos los campos');
+      return;
+    }
 
-  setLoading(true);
+    setLoading(true);
 
-  try {
-    const response = await axios.post('/usuarios/login', {
-      correo: correo,
-      password: contrasena,
-    });
+    try {
+      const response = await axios.post('/usuarios/login', {
+        correo,
+        password: contrasena,
+      });
 
-    localStorage.setItem('usuario', JSON.stringify(response.data));
+      // Guardar datos en localStorage
+      localStorage.setItem('usuario', JSON.stringify(response.data));
+      localStorage.setItem('usuarioId', response.data.id); // ID guardado
 
-    setLoading(false);
-    navigate('/MainPage');
-  } catch (error) {
-    console.error('Error en el login:', error);
-    setLoading(false);
-    alert('Correo o contraseña incorrectos');
-  }
-};
+      setLoading(false);
+      navigate('/MainPage');
+    } catch (error) {
+      console.error('Error en el login:', error);
+      setLoading(false);
+      alert('Correo o contraseña incorrectos');
+    }
+  };
 
   return (
     <div className="login-container">

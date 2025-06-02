@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Navbar from './../components/Navbar';
-import Footer from './../components/Footer';
 import "./AgregarServicios.css";
 
 export default function AgregarServicio() {
@@ -117,7 +116,6 @@ for (let [key, value] of formData.entries()) {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
