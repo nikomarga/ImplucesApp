@@ -1,6 +1,6 @@
 
 import { useNavigate } from 'react-router-dom';
-import "./Navbar.css"
+  import "./Navbar.css"
 import rocket from "../assets/images/rocket2.png";
 import { useState, useEffect } from 'react';
 

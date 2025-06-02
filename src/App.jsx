@@ -21,6 +21,7 @@ import RoleRoutes from './components/auth/RoleRoutes';
 function App() {
   return (
     <Router>
+      
       <Routes>
         {/* Default redirect to Login */}
         <Route path="/" element={<Navigate to="/Login" />} />
@@ -100,8 +101,7 @@ function App() {
         {/* 404 Not Found */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-
-      <Footer />
+        <Footer />
     </Router>
   );
 }

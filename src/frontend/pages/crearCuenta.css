@@ -1,5 +1,16 @@
-.container {
+body, html {
+  height: 100%;
+}
+
+.main-wrapper {
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
+}
+
+
+.container {
+  display: 1;
   min-height: 100vh;
 }
 

@@ -1,19 +1,32 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+
 export default function Hero() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (searchText.trim() === '') return; // evita búsqueda vacía
+    // Navega a la ruta con el texto de búsqueda como query param
+    navigate(`/buscar?query=${encodeURIComponent(searchText.trim())}`);
+  };
+
   return (
     <>
-      <nav className="navbar  w-100">
+      <nav className="navbar w-100">
         <div className="container-fluid">
-          <form className="d-flex w-100" role="search">
+          <form className="d-flex w-100" role="search" onSubmit={handleSubmit}>
             <input
-              className="form-control me-2 "
-              style={{ border: '1px solid #808080', borderRadius: '10px'}}
+              className="form-control me-2"
+              style={{ border: '1px solid #808080', borderRadius: '10px' }}
               type="search"
               placeholder="Escribe aqui el nombre del servicio o producto"
               aria-label="Search"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
             />
-            <button type="button" className="btn">
+            <button type="submit" className="btn">
               <i className="bi bi-search" style={{ fontSize: '20px' }}></i>
             </button>
           </form>
@@ -22,17 +35,25 @@ export default function Hero() {
 
       <div className="navbar w-100">
         <div className="container-fluid d-flex w-100 p-0 m-0">
-          <button 
+          <button
             onClick={() => navigate('/AgregarServicio')}
             type="button"
             className="btn btn-primary w-100 rounded-0 text-start"
-            style={{fontSize: '17px', border: 'none', backgroundColor: '#c60078', color: '#ffffff', borderRadius: '20px',  margin: '0px 9px 0px 9px' }}>
+            style={{
+              fontSize: '17px',
+              border: 'none',
+              backgroundColor: '#c60078',
+              color: '#ffffff',
+              borderRadius: '20px',
+              margin: '0px 9px 0px 9px',
+            }}
+          >
             <i className="bi bi-plus me-2" style={{ fontSize: '20px' }}></i>
             Agrega tu servicio / producto aquí
           </button>
         </div>
       </div>
     </>
-    
-  )
+  );
 }
+
