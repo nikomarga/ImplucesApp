@@ -4,12 +4,9 @@ import com.backend.impulces.models.EmprendimientoModel;
 import com.backend.impulces.services.EmprendimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -97,13 +94,12 @@ public class EmprendimientoController {
         return ResponseEntity.ok(emprendimientos);
     }
 
-    @PostMapping(value = "/subir", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> crearEmprendimientoConImagenes(
+    @PostMapping(value = "/subir")
+    public ResponseEntity<?> crearEmprendimientoConParametros(
             @RequestParam String nombreServicio,
             @RequestParam String categoriaServicio,
             @RequestParam String descripcionServicio,
-            @RequestParam String correoUsuario,
-            @RequestParam("imagenes") List<MultipartFile> imagenes
+            @RequestParam String correoUsuario
     ) {
         try {
             EmprendimientoModel emprendimiento = new EmprendimientoModel();
@@ -111,39 +107,14 @@ public class EmprendimientoController {
             emprendimiento.setCategoriaServicio(categoriaServicio);
             emprendimiento.setDescripcionServicio(descripcionServicio);
 
-            if (imagenes.size() > 0) emprendimiento.setImg1(imagenes.get(0).getBytes());
-            if (imagenes.size() > 1) emprendimiento.setImg2(imagenes.get(1).getBytes());
-            if (imagenes.size() > 2) emprendimiento.setImg3(imagenes.get(2).getBytes());
-            if (imagenes.size() > 3) emprendimiento.setImg4(imagenes.get(3).getBytes());
-            if (imagenes.size() > 4) emprendimiento.setImg5(imagenes.get(4).getBytes());
-
             EmprendimientoModel guardado = emprendimientoService.saveEmprendimiento(emprendimiento, correoUsuario);
             return new ResponseEntity<>(guardado, HttpStatus.CREATED);
 
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar imágenes");
+        } catch (RuntimeException e) {
+            if (e.getMessage() != null && e.getMessage().contains("no encontrado")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el emprendimiento.");
         }
-    }
-
-    @GetMapping("/imagen/{id}/{numero}")
-    public ResponseEntity<byte[]> obtenerImagen(@PathVariable Integer id, @PathVariable int numero) {
-        Optional<EmprendimientoModel> optional = emprendimientoService.getEmprendimientoById(id);
-        if (optional.isEmpty()) return ResponseEntity.notFound().build();
-
-        EmprendimientoModel emp = optional.get();
-        byte[] imagen = switch (numero) {
-            case 1 -> emp.getImg1();
-            case 2 -> emp.getImg2();
-            case 3 -> emp.getImg3();
-            case 4 -> emp.getImg4();
-            case 5 -> emp.getImg5();
-            default -> null;
-        };
-
-        if (imagen == null) return ResponseEntity.notFound().build();
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(imagen);
     }
 }

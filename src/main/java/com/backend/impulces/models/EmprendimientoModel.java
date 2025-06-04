@@ -21,26 +21,6 @@ public class EmprendimientoModel {
     @Column(name = "Descripcion_servicio", columnDefinition = "TEXT")
     private String descripcionServicio;
 
-    @Lob
-    @Column(name = "Img_1")
-    private byte[] img1;
-
-    @Lob
-    @Column(name = "Img_2")
-    private byte[] img2;
-
-    @Lob
-    @Column(name = "Img_3")
-    private byte[] img3;
-
-    @Lob
-    @Column(name = "Img_4")
-    private byte[] img4;
-
-    @Lob
-    @Column(name = "Img_5")
-    private byte[] img5;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Creado_por", referencedColumnName = "Usuario")
     @JsonBackReference
@@ -76,46 +56,6 @@ public class EmprendimientoModel {
 
     public void setDescripcionServicio(String descripcionServicio) {
         this.descripcionServicio = descripcionServicio;
-    }
-
-    public byte[] getImg1() {
-        return img1;
-    }
-
-    public void setImg1(byte[] img1) {
-        this.img1 = img1;
-    }
-
-    public byte[] getImg2() {
-        return img2;
-    }
-
-    public void setImg2(byte[] img2) {
-        this.img2 = img2;
-    }
-
-    public byte[] getImg3() {
-        return img3;
-    }
-
-    public void setImg3(byte[] img3) {
-        this.img3 = img3;
-    }
-
-    public byte[] getImg4() {
-        return img4;
-    }
-
-    public void setImg4(byte[] img4) {
-        this.img4 = img4;
-    }
-
-    public byte[] getImg5() {
-        return img5;
-    }
-
-    public void setImg5(byte[] img5) {
-        this.img5 = img5;
     }
 
     public UserModel getCreadoPorUsuario() {
