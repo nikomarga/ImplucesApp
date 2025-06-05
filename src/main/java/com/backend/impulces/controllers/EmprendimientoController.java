@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/emprendimientos")
 public class EmprendimientoController {
@@ -92,29 +91,5 @@ public class EmprendimientoController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(emprendimientos);
-    }
-
-    @PostMapping(value = "/subir")
-    public ResponseEntity<?> crearEmprendimientoConParametros(
-            @RequestParam String nombreServicio,
-            @RequestParam String categoriaServicio,
-            @RequestParam String descripcionServicio,
-            @RequestParam String correoUsuario
-    ) {
-        try {
-            EmprendimientoModel emprendimiento = new EmprendimientoModel();
-            emprendimiento.setNombreServicio(nombreServicio);
-            emprendimiento.setCategoriaServicio(categoriaServicio);
-            emprendimiento.setDescripcionServicio(descripcionServicio);
-
-            EmprendimientoModel guardado = emprendimientoService.saveEmprendimiento(emprendimiento, correoUsuario);
-            return new ResponseEntity<>(guardado, HttpStatus.CREATED);
-
-        } catch (RuntimeException e) {
-            if (e.getMessage() != null && e.getMessage().contains("no encontrado")) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-            }
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el emprendimiento.");
-        }
     }
 }

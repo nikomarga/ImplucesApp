@@ -51,6 +51,11 @@ public class EmprendimientoService {
         emprendimiento.setNombreServicio(emprendimientoDetails.getNombreServicio());
         emprendimiento.setCategoriaServicio(emprendimientoDetails.getCategoriaServicio());
         emprendimiento.setDescripcionServicio(emprendimientoDetails.getDescripcionServicio());
+        emprendimiento.setImg1(emprendimientoDetails.getImg1());
+        emprendimiento.setImg2(emprendimientoDetails.getImg2());
+        emprendimiento.setImg3(emprendimientoDetails.getImg3());
+        emprendimiento.setImg4(emprendimientoDetails.getImg4());
+        emprendimiento.setImg5(emprendimientoDetails.getImg5());
 
         return emprendimientoRepository.save(emprendimiento);
     }

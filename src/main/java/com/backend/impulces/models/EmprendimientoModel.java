@@ -21,6 +21,21 @@ public class EmprendimientoModel {
     @Column(name = "Descripcion_servicio", columnDefinition = "TEXT")
     private String descripcionServicio;
 
+    @Column(name = "Img_1", length = 300, nullable = false)
+    private String img1;
+
+    @Column(name = "Img_2", length = 300)
+    private String img2;
+
+    @Column(name = "Img_3", length = 300)
+    private String img3;
+
+    @Column(name = "Img_4", length = 300)
+    private String img4;
+
+    @Column(name = "Img_5", length = 300)
+    private String img5;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Creado_por", referencedColumnName = "Usuario")
     @JsonBackReference
@@ -56,6 +71,46 @@ public class EmprendimientoModel {
 
     public void setDescripcionServicio(String descripcionServicio) {
         this.descripcionServicio = descripcionServicio;
+    }
+
+    public String getImg1() {
+        return img1;
+    }
+
+    public void setImg1(String img1) {
+        this.img1 = img1;
+    }
+
+    public String getImg2() {
+        return img2;
+    }
+
+    public void setImg2(String img2) {
+        this.img2 = img2;
+    }
+
+    public String getImg3() {
+        return img3;
+    }
+
+    public void setImg3(String img3) {
+        this.img3 = img3;
+    }
+
+    public String getImg4() {
+        return img4;
+    }
+
+    public void setImg4(String img4) {
+        this.img4 = img4;
+    }
+
+    public String getImg5() {
+        return img5;
+    }
+
+    public void setImg5(String img5) {
+        this.img5 = img5;
     }
 
     public UserModel getCreadoPorUsuario() {
