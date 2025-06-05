@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/emprendimientos")
@@ -16,6 +17,8 @@ public class EmprendimientoController {
 
     @Autowired
     private EmprendimientoService emprendimientoService;
+
+    private final List<String> sedesPermitidas = Arrays.asList("Medellín", "Bello", "Rionegro", "La Pintada", "Apartadó", "Bogotá", "Cali", "Pereira");
 
     public static class CreateEmprendimientoRequest {
         private EmprendimientoModel emprendimiento;
@@ -87,6 +90,22 @@ public class EmprendimientoController {
             return ResponseEntity.badRequest().body(List.of());
         }
         List<EmprendimientoModel> emprendimientos = emprendimientoService.buscarPorNombre(nombre);
+        if (emprendimientos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(emprendimientos);
+    }
+
+    @GetMapping("/porSede")
+    public ResponseEntity<List<EmprendimientoModel>> getEmprendimientosPorSede(@RequestParam String sede) {
+        if (sede == null || sede.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(List.of());
+        }
+        boolean sedeValida = sedesPermitidas.stream().anyMatch(s -> s.equalsIgnoreCase(sede.trim()));
+        if (!sedeValida) {
+            return ResponseEntity.badRequest().body(List.of());
+        }
+        List<EmprendimientoModel> emprendimientos = emprendimientoService.getEmprendimientosPorSede(sede.trim());
         if (emprendimientos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

@@ -73,4 +73,9 @@ public class EmprendimientoService {
     public List<EmprendimientoModel> buscarPorNombre(String nombre) {
         return emprendimientoRepository.findByNombreServicioContainingIgnoreCase(nombre);
     }
+
+    @Transactional(readOnly = true)
+    public List<EmprendimientoModel> getEmprendimientosPorSede(String sede) {
+        return emprendimientoRepository.findByCreadoPorUsuario_SedeIgnoreCase(sede);
+    }
 }
