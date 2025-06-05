@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';  // IMPORTANTE para navegar
 import Navbar from './../components/Navbar';
 import "./AgregarServicios.css";
 
 export default function AgregarServicio() {
-  
+  const navigate = useNavigate();  // Hook para navegación
+
   const usuario = JSON.parse(localStorage.getItem("usuario"));
   const correoUsuario = usuario?.correo || "";
   const [nombre, setNombre] = useState("");
@@ -11,11 +13,18 @@ export default function AgregarServicio() {
   const [descripcion, setDescripcion] = useState("");
   const [imagenes, setImagenes] = useState([]);
 
+  // Manejo de imágenes seleccionadas
   const handleImagenes = (e) => {
     const files = Array.from(e.target.files);
     setImagenes(prev => [...prev, ...files]);
   };
 
+  // Función para navegar, aquí quité setOpen porque no está definido
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  // Función para subir emprendimiento
   const publicarEmprendimiento = async () => {
     const formData = new FormData();
     formData.append("nombreServicio", nombre);
@@ -27,9 +36,9 @@ export default function AgregarServicio() {
       formData.append("imagenes", img);
     });
 
-for (let [key, value] of formData.entries()) {
-  console.log(`${key}:`, value);
-}
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}:`, value);
+    }
 
     try {
       const res = await fetch("/emprendimientos/subir", {
@@ -39,12 +48,23 @@ for (let [key, value] of formData.entries()) {
 
       if (res.ok) {
         alert("¡Emprendimiento publicado exitosamente!");
+        return true; // Indica que todo salió bien
       } else {
         const error = await res.text();
         alert("Error: " + error);
+        return false;
       }
     } catch (err) {
       alert("Error de conexión con el servidor");
+      return false;
+    }
+  };
+
+  // Función que une publicar y navegar
+  const handlePublicarYRedirigir = async () => {
+    const exito = await publicarEmprendimiento();
+    if (exito) {
+      handleNavigation('/MainPage');
     }
   };
 
@@ -53,7 +73,10 @@ for (let [key, value] of formData.entries()) {
       <Navbar />
       <div className="container my-4">
         <div className="text-center mb-4">
-          <button className="btn btn-pink px-4 py-2" onClick={publicarEmprendimiento}>
+          <button
+            className="btn btn-pink px-4 py-2"
+            onClick={handlePublicarYRedirigir}
+          >
             <i className="bi bi-send-fill me-2"></i> Publicar
           </button>
         </div>

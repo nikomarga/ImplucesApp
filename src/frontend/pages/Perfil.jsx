@@ -32,9 +32,6 @@ export default function Perfil() {
           setPrograma(u.programa || '');
           setUsertype(u.usertype || 'student');
           if (u.profileImg) {
-            // profileImg viene como byte[], aquí si es base64 debes ajustarlo.
-            // Si es un arreglo de bytes, necesitarás convertirlo para mostrar imagen.
-            // Por simplicidad, asumamos que tu backend ya envía base64.
             setImagenPerfil(`data:image/jpeg;base64,${u.profileImg}`);
           }
         } else {

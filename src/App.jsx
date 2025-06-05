@@ -13,6 +13,8 @@ import MainPage from './frontend/pages/MainPage';
 import Footer from './frontend/components/Footer';
 import NotFoundPage from './frontend/pages/NotFoundPage';
 
+
+
 /* Logic Components */
 import PrivateRoutes from './components/auth/PrivateRoutes';
 import PublicRoutes from './components/auth/PublicRoutes';

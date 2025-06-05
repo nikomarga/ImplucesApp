@@ -1,40 +1,54 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "./Services.css";
 
 export default function Services() {
   const [servicios, setServicios] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8000/emprendimientos")
-      .then((res) => {
-        if (!res.ok) throw new Error("Error al obtener emprendimientos");
-        return res.json();
-      })
-      .then((data) => {
-        // Mapear emprendimientos y armar URLs de imágenes
-        const serviciosFormateados = data.map((item) => {
-          // Armar arreglo con URLs para las 5 posibles imágenes
+    const fetchData = async () => {
+      try {
+        const [emprRes, userRes] = await Promise.all([
+          axios.get("/emprendimientos"),
+          axios.get("/usuarios"),
+        ]);
+
+        const emprendimientos = emprRes.data;
+        const usuarios = userRes.data;
+
+        // Crear un mapa: idEmprendimiento → nombre del usuario
+        const autorMap = {};
+        usuarios.forEach((user) => {
+          user.emprendimientos.forEach((emp) => {
+            autorMap[emp.id] = user.usuario;
+          });
+        });
+
+        // Formatear los servicios
+        const serviciosFormateados = emprendimientos.map((item) => {
           const imagenes = [];
           for (let i = 1; i <= 5; i++) {
-            // Aquí asumo que si la imagen no existe, el backend devuelve 404
-            imagenes.push(`http://localhost:8000/emprendimientos/imagen/${item.id}/${i}`);
+            imagenes.push(`/emprendimientos/imagen/${item.id}/${i}`);
           }
 
           return {
             id: item.id,
             titulo: item.nombreServicio,
-            autor: item.creadoPor || "Desconocido",
+            autor: autorMap[item.id] || "Desconocido", // Busca en el mapa
             descripcion: item.descripcionServicio,
             rating: item.rating || 4,
-            imagenPerfil: "/default-avatar.png", // o un campo en tu modelo si tienes avatar
+            imagenPerfil: "/default-avatar.png",
             imagenes,
           };
         });
+
         setServicios(serviciosFormateados);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+      } catch (error) {
+        console.error("Error al obtener los servicios o usuarios:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -42,12 +56,9 @@ export default function Services() {
       {servicios.map((servicio, idx) => (
         <div key={idx} className="service-card">
           <div className="service-header">
-            {/* Avatar */}
             <div className="avatar-container">
               <img src={servicio.imagenPerfil} alt="avatar" className="avatar" />
             </div>
-
-            {/* Info */}
             <div className="info-container">
               <div className="Container-Name-Services">
                 <h3 className="title">{servicio.titulo}</h3>
@@ -64,8 +75,6 @@ export default function Services() {
               </div>
             </div>
           </div>
-
-          {/* Galería */}
           <div className="gallery">
             {servicio.imagenes.map((imgUrl, i) => (
               <img
@@ -74,7 +83,7 @@ export default function Services() {
                 alt={`foto ${i + 1}`}
                 className="gallery-img"
                 onError={(e) => {
-                  e.target.style.display = "none"; // Ocultar imagen si no existe o no carga
+                  e.target.style.display = "none";
                 }}
               />
             ))}
@@ -84,3 +93,4 @@ export default function Services() {
     </section>
   );
 }
+

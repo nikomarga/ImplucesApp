@@ -41,7 +41,7 @@ export default function Buscar() {
   // Función para obtener emprendimientos con filtros aplicados
   const fetchEmprendimientos = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/emprendimientos');
+      const response = await axios.get('/emprendimientos');
       let data = response.data;
 
       // Filtrar por sedes (suponiendo que "sede" esté en el objeto emprendimiento)
@@ -64,9 +64,13 @@ export default function Buscar() {
 
   // Ejecutar fetch cuando cambien filtros
   useEffect(() => {
+    const filtros = {
+      sedes: Object.keys(sedes).filter(key => sedes[key]),
+      clasificaciones: Object.keys(clasificaciones).filter(key => clasificaciones[key])
+    };
+    localStorage.setItem('filtrosBusqueda', JSON.stringify(filtros));
     fetchEmprendimientos();
   }, [sedes, clasificaciones]);
-
   return (
     <div className="px-3 py-2">
       <div className="mb-3">
