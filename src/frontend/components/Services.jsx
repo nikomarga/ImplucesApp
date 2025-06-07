@@ -1,56 +1,7 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import "./Services.css";
 
-export default function Services() {
-  const [servicios, setServicios] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [emprRes, userRes] = await Promise.all([
-          axios.get("/emprendimientos"),
-          axios.get("/usuarios"),
-        ]);
-
-        const emprendimientos = emprRes.data;
-        const usuarios = userRes.data;
-
-        // Crear un mapa: idEmprendimiento → nombre del usuario
-        const autorMap = {};
-        usuarios.forEach((user) => {
-          user.emprendimientos.forEach((emp) => {
-            autorMap[emp.id] = user.usuario;
-          });
-        });
-
-        // Formatear los servicios
-        const serviciosFormateados = emprendimientos.map((item) => {
-          const imagenes = [];
-          for (let i = 1; i <= 5; i++) {
-            imagenes.push(`/emprendimientos/imagen/${item.id}/${i}`);
-          }
-
-          return {
-            id: item.id,
-            titulo: item.nombreServicio,
-            autor: autorMap[item.id] || "Desconocido", // Busca en el mapa
-            descripcion: item.descripcionServicio,
-            rating: item.rating || 4,
-            imagenPerfil: "/default-avatar.png",
-            imagenes,
-          };
-        });
-
-        setServicios(serviciosFormateados);
-      } catch (error) {
-        console.error("Error al obtener los servicios o usuarios:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+export default function Services({ servicios }) {
   return (
     <section className="services-container">
       {servicios.map((servicio, idx) => (
@@ -93,4 +44,3 @@ export default function Services() {
     </section>
   );
 }
-
