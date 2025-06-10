@@ -4,11 +4,14 @@ import com.backend.impulces.models.EmprendimientoModel;
 import com.backend.impulces.models.UserModel;
 import com.backend.impulces.repositories.IEmprendimientoRepository;
 import com.backend.impulces.repositories.IUserRepository;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import java.io.IOException;
+import java.io.Writer;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,5 +80,30 @@ public class EmprendimientoService {
     @Transactional(readOnly = true)
     public List<EmprendimientoModel> getEmprendimientosPorSede(String sede) {
         return emprendimientoRepository.findByCreadoPorUsuario_SedeIgnoreCase(sede);
+    }
+
+    @Transactional(readOnly = true)
+    public void exportEmprendimientosToCsv(Writer writer) {
+        List<EmprendimientoModel> emprendimientos = emprendimientoRepository.findAll();
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
+                .withHeader("ID", "Nombre Servicio", "Categoria", "Descripcion", "Imagen 1", "Imagen 2", "Imagen 3", "Imagen 4", "Imagen 5", "Creado Por"))) {
+            for (EmprendimientoModel emprendimiento : emprendimientos) {
+                String creadoPor = (emprendimiento.getCreadoPorUsuario() != null) ? emprendimiento.getCreadoPorUsuario().getUsuario() : "N/A";
+                csvPrinter.printRecord(
+                        emprendimiento.getId(),
+                        emprendimiento.getNombreServicio(),
+                        emprendimiento.getCategoriaServicio(),
+                        emprendimiento.getDescripcionServicio(),
+                        emprendimiento.getImg1(),
+                        emprendimiento.getImg2(),
+                        emprendimiento.getImg3(),
+                        emprendimiento.getImg4(),
+                        emprendimiento.getImg5(),
+                        creadoPor
+                );
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error al escribir el archivo CSV: " + e.getMessage());
+        }
     }
 }

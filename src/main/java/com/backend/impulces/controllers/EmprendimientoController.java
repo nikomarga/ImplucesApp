@@ -2,14 +2,16 @@ package com.backend.impulces.controllers;
 
 import com.backend.impulces.models.EmprendimientoModel;
 import com.backend.impulces.services.EmprendimientoService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Arrays;
 
 @RestController
 @RequestMapping("/emprendimientos")
@@ -110,5 +112,12 @@ public class EmprendimientoController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(emprendimientos);
+    }
+
+    @GetMapping("/export/csv")
+    public void exportToCsv(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=\"emprendimientos.csv\"");
+        emprendimientoService.exportEmprendimientosToCsv(response.getWriter());
     }
 }
