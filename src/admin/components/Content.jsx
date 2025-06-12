@@ -3,7 +3,8 @@ import Footer from "../../frontend/components/Footer"
 
 export default function Content() {
   const descargarCSV = () => {
-  window.open(" http://localhost:8000/emprendimientos/export/csv", "_blank");
+  window.open("http://localhost:8000/emprendimientos/export/csv", "_blank");
+  window.open("http://localhost:8000/usuarios/export/csv", "_blank");
 };
   return (
     <>
