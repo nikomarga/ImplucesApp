@@ -2,11 +2,13 @@ package com.backend.impulces.controllers;
 
 import com.backend.impulces.models.UserModel;
 import com.backend.impulces.services.UserService;
+import jakarta.servlet.http.HttpServletResponse; 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException; 
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
@@ -38,7 +40,7 @@ public class UserController {
             this.password = password;
         }
     }
-    
+
     @GetMapping
     public ArrayList<UserModel> getUsers() {
         return this.userService.getUsers();
@@ -103,11 +105,18 @@ public class UserController {
 
         if (userOptional.isPresent()) {
             UserModel user = userOptional.get();
-            user.setPassword(null);
+            user.setPassword(null); 
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "Correo o contraseña inválidos"));
         }
+    }
+
+    @GetMapping("/export/csv")
+    public void exportUsersToCsv(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition", "attachment; filename=\"usuarios.csv\"");
+        userService.exportUsersToCsv(response.getWriter());
     }
 }

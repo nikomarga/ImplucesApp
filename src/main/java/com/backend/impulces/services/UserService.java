@@ -2,11 +2,17 @@ package com.backend.impulces.services;
 
 import com.backend.impulces.models.UserModel;
 import com.backend.impulces.repositories.IUserRepository;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; 
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.List; 
 
 @Service
 public class UserService {
@@ -74,11 +80,14 @@ public class UserService {
             if (request.getPrograma() != null) {
                 user.setPrograma(request.getPrograma());
             }
+            if (request.getUsertype() != null) { 
+                user.setUsertype(request.getUsertype());
+            }
             return userRepository.save(user);
         }
         return null;
     }
- 
+
     @Transactional
     public Boolean deleteUser (Integer id){
         try{
@@ -89,6 +98,27 @@ public class UserService {
             return false;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public void exportUsersToCsv(Writer writer) throws IOException {
+        List<UserModel> users = userRepository.findAll(); 
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT
+                .withHeader("ID", "Usuario", "Sede", "Fecha Nacimiento", "Correo", "Programa", "Tipo de Usuario"))) { 
+            for (UserModel user : users) {
+                csvPrinter.printRecord(
+                        user.getId(),
+                        user.getUsuario(),
+                        user.getSede(),
+                        user.getFechaNacimiento(),
+                        user.getCorreo(),
+                        user.getPrograma(),
+                        user.getUsertype()
+                );
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error al escribir el archivo CSV de usuarios: " + e.getMessage(), e);
         }
     }
 }
