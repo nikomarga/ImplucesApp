@@ -33,7 +33,7 @@ export default function CrearCuenta() {
     };
 
     try {
-      const response = await axios.post('/usuarios', payload);
+      const response = await axios.post('https://impulces-backend-724298271244.us-central1.run.app/usuarios', payload);
       console.log('Respuesta del servidor:', response.data);
       alert('Cuenta creada exitosamente');
       navigate('/perfil');

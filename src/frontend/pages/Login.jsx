@@ -21,7 +21,8 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await axios.post('/usuarios/login', {
+      const response = await axios.post('https://impulces-backend-724298271244.us-central1.run.app/login', {
+        
         correo,
         password: contrasena,
       });

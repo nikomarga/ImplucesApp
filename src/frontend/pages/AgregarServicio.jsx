@@ -41,7 +41,7 @@ export default function AgregarServicio() {
     }
 
     try {
-      const res = await fetch("/emprendimientos/subir", {
+      const res = await fetch("https://impulces-backend-724298271244.us-central1.run.app/emprendimientos?creadorUsuario=${nombreUsuario}", {
         method: "POST",
         body: formData
       });

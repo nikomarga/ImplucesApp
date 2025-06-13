@@ -14,7 +14,7 @@ export default function MainPage() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("/usuarios");
+        const response = await axios.get("https://impulces-backend-724298271244.us-central1.run.app/usuarios");
         const users = response.data;
         
         // Create a mapping of emprendimiento IDs to user names
@@ -37,7 +37,7 @@ export default function MainPage() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get("/emprendimientos");
+        const response = await axios.get("https://impulces-backend-724298271244.us-central1.run.app/emprendimientos");
         let data = response.data;
 
         // Apply filters

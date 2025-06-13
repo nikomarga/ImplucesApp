@@ -18,7 +18,7 @@ export default function Perfil() {
   useEffect(() => {
     if (!idUsuario) return;
 
-    axios.get('/usuarios')
+    axios.get('https://impulces-backend-724298271244.us-central1.run.app/usuarios')
       .then(res => {
         const usuarios = res.data;
         // Buscar el usuario con el idUsuario guardado
@@ -73,7 +73,7 @@ export default function Perfil() {
         usertype
       };
 
-      await axios.put(`/usuarios/${idUsuario}`, datos, {
+      await axios.put(`/https://impulces-backend-724298271244.us-central1.run.app/usuarios/${idUsuario}`, datos, {
         headers: {
           'Content-Type': 'application/json'
         }
