@@ -7,9 +7,7 @@ export default function Services({ servicios }) {
       {servicios.map((servicio, idx) => (
         <div key={idx} className="service-card">
           <div className="service-header">
-            <div className="avatar-container">
-              <img src={servicio.imagenPerfil} alt="avatar" className="avatar" />
-            </div>
+          
             <div className="info-container">
               <div className="Container-Name-Services">
                 <h3 className="title">{servicio.titulo}</h3>
