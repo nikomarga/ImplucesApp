@@ -7,8 +7,11 @@ export default function Hero() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (searchText.trim() === '') return; // evita búsqueda vacía
-    // Navega a la ruta con el texto de búsqueda como query param
+    if (searchText.trim() === '') return; // Evita búsqueda vacía
+    
+    // IMPORTANTE: Con HashRouter, navigate maneja automáticamente la parte del hash.
+    // Esta ruta '/buscar' se convierte en '/#/buscar' en la URL.
+    // La parte `?query=` es el parámetro que el backend espera como `nombre`.
     navigate(`/buscar?query=${encodeURIComponent(searchText.trim())}`);
   };
 
@@ -36,7 +39,7 @@ export default function Hero() {
       <div className="navbar w-100">
         <div className="container-fluid d-flex w-100 p-0 m-0">
           <button
-            onClick={() => navigate('/AgregarServicio')}
+            onClick={() => navigate('/AgregarServicio')} // La navegación interna a otras páginas también usa la misma lógica
             type="button"
             className="btn btn-primary w-100 rounded-0 text-start"
             style={{
@@ -56,4 +59,3 @@ export default function Hero() {
     </>
   );
 }
-

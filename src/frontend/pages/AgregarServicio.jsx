@@ -1,66 +1,74 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // IMPORTANTE para navegar
+import { useNavigate } from 'react-router-dom';
 import Navbar from './../components/Navbar';
-import "./AgregarServicios.css";
+import "./AgregarServicios.css"; 
 
 export default function AgregarServicio() {
-  const navigate = useNavigate();  // Hook para navegación
+  const navigate = useNavigate();
 
   const usuario = JSON.parse(localStorage.getItem("usuario"));
-  const correoUsuario = usuario?.correo || "";
+  const correoUsuario = usuario?.correo || ""; 
   const [nombre, setNombre] = useState("");
   const [categoria, setCategoria] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [imagenes, setImagenes] = useState([]);
+  const [imagenes, setImagenes] = useState([]); 
 
-  // Manejo de imágenes seleccionadas
   const handleImagenes = (e) => {
     const files = Array.from(e.target.files);
-    setImagenes(prev => [...prev, ...files]);
+    setImagenes(prev => [...prev, ...files]); 
   };
 
-  // Función para navegar, aquí quité setOpen porque no está definido
   const handleNavigation = (path) => {
     navigate(path);
   };
 
-  // Función para subir emprendimiento
   const publicarEmprendimiento = async () => {
-    const formData = new FormData();
-    formData.append("nombreServicio", nombre);
-    formData.append("categoriaServicio", categoria);
-    formData.append("descripcionServicio", descripcion);
-    formData.append("correoUsuario", correoUsuario);
+    const emprendimientoData = {
+      nombreServicio: nombre,
+      categoriaServicio: categoria,
+      descripcionServicio: descripcion,
 
-    imagenes.forEach(img => {
-      formData.append("imagenes", img);
-    });
+      img1: imagenes[0] ? "URL_IMAGEN_1_PLACEHOLDER" : "", 
+      img2: imagenes[1] ? "URL_IMAGEN_2_PLACEHOLDER" : "",
+      img3: imagenes[2] ? "URL_IMAGEN_3_PLACEHOLDER" : "",
+      img4: imagenes[3] ? "URL_IMAGEN_4_PLACEHOLDER" : "",
+      img5: imagenes[4] ? "URL_IMAGEN_5_PLACEHOLDER" : "",
+    };
 
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
+    const requestBody = {
+      emprendimiento: emprendimientoData,
+      correoUsuario: correoUsuario 
+    };
+
+    console.log("Sending JSON:", JSON.stringify(requestBody, null, 2));
 
     try {
-      const res = await fetch("https://impulces-backend-724298271244.us-central1.run.app/emprendimientos?creadorUsuario=${nombreUsuario}", {
+      const url = `https://impulces-backend-724298271244.us-central1.run.app/emprendimientos?correoUsuario=${encodeURIComponent(correoUsuario)}`;
+
+      const res = await fetch(url, { 
         method: "POST",
-        body: formData
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody) 
       });
 
       if (res.ok) {
         alert("¡Emprendimiento publicado exitosamente!");
-        return true; // Indica que todo salió bien
+        return true;
       } else {
-        const error = await res.text();
-        alert("Error: " + error);
+        const errorText = await res.text();
+        console.error("Error al publicar emprendimiento:", res.status, errorText);
+        alert("Error al publicar: " + errorText);
         return false;
       }
     } catch (err) {
+      console.error("Error de conexión:", err);
       alert("Error de conexión con el servidor");
       return false;
     }
   };
 
-  // Función que une publicar y navegar
   const handlePublicarYRedirigir = async () => {
     const exito = await publicarEmprendimiento();
     if (exito) {
