@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Dashboard from './admin/pages/Dashboard';
 import AdminPage from './admin/pages/AdminPage';
 import ReportsPage from './admin/pages/ReportsPage';
@@ -13,9 +13,6 @@ import MainPage from './frontend/pages/MainPage';
 import Footer from './frontend/components/Footer';
 import NotFoundPage from './frontend/pages/NotFoundPage';
 
-
-
-/* Logic Components */
 import PrivateRoutes from './components/auth/PrivateRoutes';
 import PublicRoutes from './components/auth/PublicRoutes';
 import RoleRoutes from './components/auth/RoleRoutes';
@@ -23,12 +20,9 @@ import RoleRoutes from './components/auth/RoleRoutes';
 function App() {
   return (
     <Router>
-      
       <Routes>
-        {/* Default redirect to Login */}
         <Route path="/" element={<Navigate to="/Login" />} />
 
-        {/* Public Routes */}
         <Route element={<PublicRoutes />}>
           <Route path="/Login" element={<Login />} />
           <Route path="/Nosotros" element={<Nosotros />} />
@@ -37,7 +31,6 @@ function App() {
           <Route path="/MainPage" element={<MainPage />} />
         </Route>
 
-        {/* Private + Role-protected Routes */}
         <Route
           path="/dashboard"
           element={
@@ -100,10 +93,9 @@ function App() {
           }
         />
 
-        {/* 404 Not Found */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
-        <Footer />
+      <Footer />
     </Router>
   );
 }

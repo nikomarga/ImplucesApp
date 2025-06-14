@@ -1,23 +1,24 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import Buscar from "../components/Buscar";
-import Hero from "../components/Hero";
-import Services from "../components/Services";
+import Buscar from "../components/Buscar"; 
+import Hero from "../components/Hero";    
+import Services from "../components/Services"; 
+
+const BASE_URL = "https://impulces-backend-724298271244.us-central1.run.app"; 
 
 export default function MainPage() {
   const [filtros, setFiltros] = useState({ sedes: [], clasificaciones: [] });
   const [servicios, setServicios] = useState([]);
-  const [userMap, setUserMap] = useState({}); // To store user information
+  const [userMap, setUserMap] = useState({});
 
   // Fetch user data once when component mounts
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("https://impulces-backend-724298271244.us-central1.run.app/usuarios");
+        const response = await axios.get(`${BASE_URL}/usuarios`); 
         const users = response.data;
         
-        // Create a mapping of emprendimiento IDs to user names
         const mapping = {};
         users.forEach(user => {
           user.emprendimientos?.forEach(emp => {
@@ -33,11 +34,10 @@ export default function MainPage() {
     fetchUsers();
   }, []);
 
-  // Fetch and filter services whenever filters change
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get("https://impulces-backend-724298271244.us-central1.run.app/emprendimientos");
+        const response = await axios.get(`${BASE_URL}/emprendimientos`); 
         let data = response.data;
 
         // Apply filters
@@ -51,17 +51,20 @@ export default function MainPage() {
           );
         }
 
-        // Format services with author information
         const formattedServices = data.map(item => ({
           id: item.id,
           titulo: item.nombreServicio,
-          autor: userMap[item.id] || "Desconocido", // Get author from userMap
+          autor: userMap[item.id] || "Desconocido",
           descripcion: item.descripcionServicio,
           rating: item.rating || 4,
           imagenPerfil: "/default-avatar.png",
-          imagenes: Array.from({ length: 5 }, (_, i) => 
-            `/emprendimientos/imagen/${item.id}/${i+1}`
-          )
+          imagenes: [
+            item.img1, 
+            item.img2, 
+            item.img3, 
+            item.img4, 
+            item.img5
+          ].filter(Boolean),
         }));
 
         setServicios(formattedServices);
@@ -71,7 +74,7 @@ export default function MainPage() {
     };
 
     fetchServices();
-  }, [filtros, userMap]); // Re-run when filters or userMap changes
+  }, [filtros, userMap]);
 
   return (
     <div>
@@ -83,7 +86,7 @@ export default function MainPage() {
           </div>
           <div className="col-12 col-md-10 col-lg-10 p-3 bg-light">
             <Hero />
-            <Services servicios={servicios} />
+            <Services servicios={servicios} /> 
           </div>
         </div>
       </div>

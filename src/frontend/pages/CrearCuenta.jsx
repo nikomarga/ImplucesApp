@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; 
 import { useState } from 'react';
 import rocket from '../assets/images/rocket2.png';
 import axios from 'axios';
-import './login.css'; // reutilizamos los estilos del login
+import './login.css';
+
+const BASE_URL = 'https://impulces-backend-724298271244.us-central1.run.app'; 
 
 export default function CrearCuenta() {
   const navigate = useNavigate();
@@ -33,10 +35,10 @@ export default function CrearCuenta() {
     };
 
     try {
-      const response = await axios.post('https://impulces-backend-724298271244.us-central1.run.app/usuarios', payload);
+      const response = await axios.post(`${BASE_URL}/usuarios`, payload); 
       console.log('Respuesta del servidor:', response.data);
       alert('Cuenta creada exitosamente');
-      navigate('/perfil');
+      navigate('/Login'); 
     } catch (error) {
       console.error('Error al crear cuenta:', error.response?.data || error.message);
       alert('Ocurrió un error al crear la cuenta. Intenta nuevamente.');
@@ -62,7 +64,8 @@ export default function CrearCuenta() {
           </div>
 
           <p className="login-text">
-            ¿Ya estás impulsando tu negocio con nosotros? <a href="/Login">Ingresa a tu cuenta</a>
+            ¿Ya estás impulsando tu negocio con nosotros?
+            <Link to="/Login">Ingresa a tu cuenta</Link> 
           </p>
 
           <form className="login-form" onSubmit={handleSubmit}>
@@ -100,4 +103,3 @@ export default function CrearCuenta() {
     </div>
   );
 }
-

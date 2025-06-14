@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import rocket from '../assets/images/rocket2.png';
-import './login.css';
+import './login.css'; 
+
+const BASE_URL = 'https://impulces-backend-724298271244.us-central1.run.app'; 
 
 export default function Login() {
   const navigate = useNavigate();
@@ -21,15 +23,13 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://impulces-backend-724298271244.us-central1.run.app/login', {
-        
+      const response = await axios.post(`${BASE_URL}/usuarios/login`, { 
         correo,
         password: contrasena,
       });
 
-      // Guardar datos en localStorage
       localStorage.setItem('usuario', JSON.stringify(response.data));
-      localStorage.setItem('usuarioId', response.data.id); // ID guardado
+      localStorage.setItem('usuarioId', response.data.id);
 
       setLoading(false);
       navigate('/MainPage');
@@ -58,7 +58,8 @@ export default function Login() {
           </div>
 
           <p className="login-text">
-            ¿Quieres impulsar tu negocio con nosotros? <a href="/CrearCuenta">Crea una cuenta</a>
+            ¿Quieres impulsar tu negocio con nosotros?
+            <Link to="/CrearCuenta">Crea una cuenta</Link> 
           </p>
 
           <form className="login-form" onSubmit={handleLogin}>
@@ -76,9 +77,6 @@ export default function Login() {
               onChange={(e) => setContrasena(e.target.value)}
               required
             />
-            <div className="login-forgot">
-              <a href="#">¿Olvidaste tu contraseña?</a>
-            </div>
             <button type="submit" disabled={loading}>
               {loading ? 'Ingresando...' : 'Iniciar'}
             </button>

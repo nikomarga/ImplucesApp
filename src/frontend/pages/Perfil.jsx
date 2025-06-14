@@ -1,7 +1,9 @@
-import Navbar from "../components/Navbar";  
+import Navbar from "../components/Navbar"; 
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './MiPerfil.css';
+
+const BASE_URL = 'https://impulces-backend-724298271244.us-central1.run.app';
 
 export default function Perfil() {
   const [imagenPerfil, setImagenPerfil] = useState(null);
@@ -11,35 +13,39 @@ export default function Perfil() {
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
   const [programa, setPrograma] = useState('');
-  const [usertype, setUsertype] = useState('student');
+  const [usertype, setUsertype] = useState('student'); 
 
-  const idUsuario = localStorage.getItem('usuarioId');
+  const idUsuario = localStorage.getItem('usuarioId'); 
 
   useEffect(() => {
-    if (!idUsuario) return;
+    if (!idUsuario) {
+      console.warn("No se encontró ID de usuario en localStorage para cargar el perfil.");
+      return;
+    }
 
-    axios.get('https://impulces-backend-724298271244.us-central1.run.app/usuarios')
+    axios.get(`${BASE_URL}/usuarios/${idUsuario}`) 
       .then(res => {
-        const usuarios = res.data;
-        // Buscar el usuario con el idUsuario guardado
-        const u = usuarios.find(user => user.id === parseInt(idUsuario));
+        const u = res.data; 
         if (u) {
           setUsuario(u.usuario || '');
           setSede(u.sede || '');
-          setFechaNacimiento(u.fechaNacimiento || '');
+          setFechaNacimiento(u.fechaNacimiento || ''); 
           setCorreo(u.correo || '');
-          setPassword(u.password || '');
+          setPassword(''); 
           setPrograma(u.programa || '');
           setUsertype(u.usertype || 'student');
           if (u.profileImg) {
             setImagenPerfil(`data:image/jpeg;base64,${u.profileImg}`);
           }
         } else {
-          console.error('Usuario no encontrado en la lista');
+          console.error(`Usuario con ID ${idUsuario} no encontrado.`);
         }
       })
-      .catch(err => console.error("Error al cargar usuarios:", err));
-  }, [idUsuario]);
+      .catch(err => {
+        console.error(`Error al cargar el perfil del usuario ${idUsuario}:`, err);
+        alert('Error al cargar la información del perfil.');
+      });
+  }, [idUsuario]); 
 
   const handleImagenChange = (e) => {
     const file = e.target.files[0];
@@ -48,7 +54,7 @@ export default function Perfil() {
       reader.onloadend = () => {
         const base64Image = reader.result;
         setImagenPerfil(base64Image);
-        localStorage.setItem("imagenPerfil", base64Image);
+        localStorage.setItem("imagenPerfil", base64Image); 
       };
       reader.readAsDataURL(file);
     }
@@ -67,13 +73,13 @@ export default function Perfil() {
         sede,
         fechaNacimiento,
         correo,
-        password,
+        password: password,
         programa,
-        profileImg: imagenPerfil?.split(',')[1], // Elimina "data:image/jpeg;base64,"
+        profileImg: imagenPerfil && imagenPerfil.startsWith('data:image/') ? imagenPerfil.split(',')[1] : imagenPerfil, 
         usertype
       };
 
-      await axios.put(`/https://impulces-backend-724298271244.us-central1.run.app/usuarios/${idUsuario}`, datos, {
+      await axios.put(`${BASE_URL}/usuarios/${idUsuario}`, datos, { 
         headers: {
           'Content-Type': 'application/json'
         }
@@ -85,13 +91,14 @@ export default function Perfil() {
       alert('Error al guardar los cambios');
     }
   };
+
   return (
     <>
       <Navbar />
       <div className="perfil-container bg-light">
         <div className="perfil-avatar-container">
           <img
-            src={imagenPerfil || 'https://via.placeholder.com/150'}
+            src={imagenPerfil || 'https://via.placeholder.com/150'} 
             alt="Agrega o cambiar imagen"
             className="perfil-avatar"
           />
@@ -147,7 +154,7 @@ export default function Perfil() {
             <input
               type="password"
               placeholder="Contraseña"
-              value={password}
+              value={password} 
               onChange={e => setPassword(e.target.value)}
             />
             <input
@@ -174,4 +181,3 @@ export default function Perfil() {
     </>
   );
 }
-
