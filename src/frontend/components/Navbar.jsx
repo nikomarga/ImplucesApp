@@ -71,7 +71,6 @@ export default function Navbar() {
           style={{ width: '50px', height: '50px', objectFit: 'cover' }}
         />
         </button>
-        <p className="m-0" style={{ fontSize: '0.8rem' }}>Mi Perfil</p>
 
         {/* Menú desplegable */}
         {open && (
@@ -82,7 +81,7 @@ export default function Navbar() {
             <button onClick={() => handleNavigation('/perfil')} className="dropdown-item text-start">
               Mi Perfil
             </button>
-            <button onClick={() => {
+            <button className="dropdown-item text-start" onClick={() => {
               localStorage.removeItem('usuario');
               navigate('/Login');
             }}>
